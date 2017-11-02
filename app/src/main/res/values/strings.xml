@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Grocery Cart Calculator</string>
+    <string name="glsa_title">Grocery Lists</string>
 </resources>

@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".GroceryListSelectActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="@string/glsa_title"/>
     </application>
 
 </manifest>
