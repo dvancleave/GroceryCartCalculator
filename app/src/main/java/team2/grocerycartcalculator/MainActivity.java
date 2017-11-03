@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,8 +48,19 @@ public class MainActivity extends AppCompatActivity {
         String[] from = {listHashName};
         int[] to = {R.id.List_name};
         SimpleAdapter adapter = new SimpleAdapter(this, data, resource, from, to);
+        listsList.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent listActivity = new Intent(getApplicationContext(), ListActivity.class);
+                startActivity(listActivity);
+            }
+        });
         listsList.setAdapter(adapter);
+
+
     }
+    //Intent listActivity = new Intent(getApplicationContext(), ListActivity.class);
+    //startActivity(listActivity);
 
 
 }
