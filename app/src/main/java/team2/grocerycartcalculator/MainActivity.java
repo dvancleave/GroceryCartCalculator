@@ -17,6 +17,8 @@ import java.util.HashMap;
 public class MainActivity extends AppCompatActivity {
     CalendarView calendar;
     ListView listsList;
+    //date format = (mm-dd-yyyy)
+    String curDate;
 
     //example listNames
     ArrayList<String> listNames = new ArrayList<String>();
@@ -32,10 +34,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //initialize Views
         calendar = (CalendarView) findViewById(R.id.calendarView);
         listsList = (ListView) findViewById(R.id.listView);
-        //populate example listNames
+
+        //Creates adapter, populates it and sets it to the list view
         fillExampleNames();
         ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
         String listHashName = "listName";
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         String[] from = {listHashName};
         int[] to = {R.id.List_name};
         SimpleAdapter adapter = new SimpleAdapter(this, data, resource, from, to);
+        //create onclicklistener for listview
         listsList.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -57,10 +61,16 @@ public class MainActivity extends AppCompatActivity {
         });
         listsList.setAdapter(adapter);
 
+        //On date change listener to keep current date string updated
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+
+            @Override
+            public void onSelectedDayChange(CalendarView view, int year, int month,
+                                            int dayOfMonth) {
+                //date format = (mm-dd-yyyy)
+                curDate =Integer.toString(month)+"-"+Integer.toString(dayOfMonth) + "-" + Integer.toString(year);
+            }
+        });
 
     }
-    //Intent listActivity = new Intent(getApplicationContext(), ListActivity.class);
-    //startActivity(listActivity);
-
-
 }
