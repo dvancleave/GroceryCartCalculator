@@ -6,22 +6,26 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class ListActivity extends AppCompatActivity {
     ListView itemsView;
     ArrayList<String> itemNames = new ArrayList<String>();
+    Calendar currentDate = Calendar.getInstance();
 
     void fillExampleNames(){
         for(int i=0; i<5; i++){
             itemNames.add("List"+Integer.toString(i));
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        currentDate.setTimeInMillis(getIntent().getLongExtra("date", 0));
         itemsView = (ListView) findViewById(R.id.item_list);
 
         fillExampleNames();

@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent listActivity = new Intent(getApplicationContext(), ListActivity.class);
+                listActivity.putExtra("date", currentDate.getTimeInMillis());
                 startActivity(listActivity);
             }
         });
