@@ -1,15 +1,14 @@
 package team2.grocerycartcalculator;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CalendarView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,5 +72,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+        /*
+           ===  Database Test ===
+
+
+        Database db = new Database(this); // get database handler
+
+        // maximum of 3 grocery lists
+        while (db.getGroceryLists().size() > 2) {
+            GroceryList gl = db.getGroceryLists().get(0);
+            db.deleteGroceryList(gl);
+        }
+
+        // create some foods
+        Food f1 = db.addFood("1 lb. Fuji Apple", 100);
+        Food f2 = db.addFood("1 lb. Banana", 50);
+        Food f3 = db.addFood("1 lb. Organic Banana", 70);
+        Food f4 = db.addFood("Avocado", 100);
+
+        // create a new grocery list
+        GroceryList list = db.addGroceryList("Banana List", Calendar.getInstance());
+        list.addFood(f2, 9); // 9 bananas
+        list.addFood(f3, 1); // 1 organic banana
+        list.recalculateTotalPrice();
+
+        // show some popup text w/ the grocery lists & each item
+        String str = "";
+        for (GroceryList gl : db.getGroceryLists()) {
+            str += "\n" + gl.getFoodQuantities().size() + " items in '" + gl.getName() + "':";
+
+            for (Map.Entry<Food, Integer> e : gl.getFoodQuantities().entrySet())
+                str += "\n  " + e.getValue() + "x " + e.getKey().getName() + " ($" + (e.getKey().getPrice() / 100d) + ")";
+        }
+        if (!str.isEmpty()) Toast.makeText(getApplicationContext(), str.substring(1), Toast.LENGTH_LONG).show();
+
+        */
     }
 }
