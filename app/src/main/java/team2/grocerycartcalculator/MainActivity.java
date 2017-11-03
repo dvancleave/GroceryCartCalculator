@@ -12,13 +12,14 @@ import android.widget.SimpleAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     CalendarView calendar;
     ListView listsList;
-    //date format = (mm-dd-yyyy)
-    String curDate;
+
+    Calendar currentDate = Calendar.getInstance();
 
     //example listNames
     ArrayList<String> listNames = new ArrayList<String>();
@@ -38,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
         calendar = (CalendarView) findViewById(R.id.calendarView);
         listsList = (ListView) findViewById(R.id.listView);
 
-        //Creates adapter, populates it and sets it to the list view
         fillExampleNames();
+        //Creates adapter, populates it and sets it to the list view
         ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
         String listHashName = "listName";
         for(int i=0; i<listNames.size();i++){
@@ -61,14 +62,13 @@ public class MainActivity extends AppCompatActivity {
         });
         listsList.setAdapter(adapter);
 
+
         //On date change listener to keep current date string updated
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month,
                                             int dayOfMonth) {
-                //date format = (mm-dd-yyyy)
-                curDate =Integer.toString(month)+"-"+Integer.toString(dayOfMonth) + "-" + Integer.toString(year);
+                currentDate.setTimeInMillis(calendar.getDate());
             }
         });
 
