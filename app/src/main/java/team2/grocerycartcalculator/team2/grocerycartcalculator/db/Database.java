@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -23,19 +24,22 @@ public class Database extends SQLiteOpenHelper {
 
     // Name & version of SQLite database
     private static final String NAME = "groceries";
-    private static final int VERSION = 1;
+    private static final int VERSION = 2;
 
     // Table names (indicated by '_' suffix)
     private static String _FOODS = "foods";
     private static String _LISTS = "lists";
     private static String _LIST_FOODS = "list_foods";
+    private static String _FOOD_TAGS = "food_tags";
+    private static String _BUDGETS = "budget";
 
     // The actual database
     private SQLiteDatabase db;
 
     // Loaded database info (keys refer to IDs for each data structure)
-    private Map<Integer, Food> foods = new HashMap<Integer, Food>();
-    private Map<Integer, GroceryList> lists = new HashMap<Integer, GroceryList>();
+    private Map<Integer, Food> foods = new HashMap<>();
+    private Map<Integer, GroceryList> lists = new HashMap<>();
+    private List<Budget> budgets = new ArrayList<>();
 
     // Constructor
     public Database(Context context) {
@@ -52,21 +56,35 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + _FOODS + "(" +
                 Food._ID + " INTEGER PRIMARY KEY," +
                 Food._NAME + " TEXT," +
-                Food._PRICE + " REAL)");
+                Food._PRICE + " INTEGER)");
 
         // Create table for grocery lists
         db.execSQL("CREATE TABLE IF NOT EXISTS " + _LISTS + "(" +
                 GroceryList._ID + " INTEGER PRIMARY KEY," +
                 GroceryList._NAME + " TEXT," +
                 GroceryList._DATE + " BIGINT," +
-                GroceryList._TOTAL_PRICE + " REAL)");
+                GroceryList._TOTAL_PRICE + " INTEGER)");
 
         // Create table for grocery list foods and their quantities
         db.execSQL("CREATE TABLE IF NOT EXISTS " + _LIST_FOODS + "(" +
                 GroceryList._ID + " INTEGER," +
                 Food._ID + " INTEGER," +
-                Food._QUANTITY + " INTEGER," +
+                Food._QUANTITY + " REAL," +
                 "PRIMARY KEY (" + Food._ID + "," + GroceryList._ID + "))");
+
+        // Create table for food tags
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + _FOOD_TAGS + "(" +
+                Food._ID + " INTEGER," +
+                Food._TAG + " TEXT," +
+                "PRIMARY KEY (" + Food._ID + "," + Food._TAG + "))");
+
+        // Create table for monthly budgets
+        db.execSQL("CREATE TABLE IF NOT EXISTS " + _BUDGETS + "(" +
+                Budget._YEAR + " INTEGER," +
+                Budget._MONTH + " INTEGER," +
+                Budget._TOTAL + " INTEGER," +
+                Budget._SPENT + " INTEGER," +
+                "PRIMARY KEY (" + Budget._YEAR + "," + Budget._MONTH + "))");
     }
 
     // Upgrade from version v1 to version v2
@@ -76,14 +94,11 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + _FOODS);
         db.execSQL("DROP TABLE IF EXISTS " + _LISTS);
         db.execSQL("DROP TABLE IF EXISTS " + _LIST_FOODS);
+        db.execSQL("DROP TABLE IF EXISTS " + _FOOD_TAGS);
+        db.execSQL("DROP TABLE IF EXISTS " + _BUDGETS);
 
         // Re-create them
         onCreate(db);
-    }
-
-    @Override
-    public void onOpen(SQLiteDatabase db) {
-        super.onOpen(db);
     }
 
     /*
@@ -100,22 +115,91 @@ public class Database extends SQLiteOpenHelper {
         return new ArrayList<>(lists.values());
     }
 
+    // Gets a food item by its name (must be the exact name, ignoring case)
+    public Food getFoodByName(String name) {
+        for (Food f : foods.values()) {
+            if (f.getName().equalsIgnoreCase(name)) return f;
+        }
+        return null;
+    }
+
+    // Gets a list of food items w/ all of the given tag(s)
+    public List<Food> getFoodsByTag(String... tags) {
+        List<Food> list = new ArrayList<>();
+        List<String> tagList = Arrays.asList(tags);
+
+        for (Food f : foods.values()) {
+            if (f.getTags().containsAll(tagList)) list.add(f);
+        }
+
+        return list;
+    }
+
+    // Gets a list of grocery lists w/ all of the given tag(s) in their food lists
+    public List<GroceryList> getGroceryListsByTag(String... tags) {
+        List<GroceryList> list = new ArrayList<>();
+        List<String> tagList = Arrays.asList(tags);
+
+        for (GroceryList gl : lists.values()) {
+            if (gl.getAllTags().containsAll(tagList)) list.add(gl);
+        }
+
+        return list;
+    }
+
+    // Gets the budget for a specific year and month (or simply a timestamp or calendar object), adding a row to the table if needed
+    public Budget getBudget(int year, int month) {
+        // Find preexisting budget
+        for (Budget b : budgets) {
+            if (b.getYear() == year && b.getMonth() == month) return b;
+        }
+
+        // If not found, create one & return it
+        ContentValues vals = new ContentValues();
+
+        vals.put(Budget._YEAR, year);
+        vals.put(Budget._MONTH, month);
+        vals.put(Budget._TOTAL, 0);
+        vals.put(Budget._SPENT, 0);
+
+        db.insert(_BUDGETS, null, vals);
+        Budget budget = new Budget(year, month, 0, 0);
+
+        budgets.add(budget);
+        return budget;
+    }
+    public Budget getBudget(Calendar month) {
+        return getBudget(month.get(Calendar.YEAR), month.get(Calendar.MONTH) + 1);
+    }
+    public Budget getBudget(long timeInMillis) {
+        Calendar month = Calendar.getInstance();
+        month.setTimeInMillis(timeInMillis);
+        return getBudget(month);
+    }
+
+
     /*
         Adders & Removers
      */
 
     // Add row to foods table, enforcing lowercase names; returns Food instance
     public Food addFood(String name, int price) {
-        name = name.toLowerCase(); // Enforce lowercase on food names
-        ContentValues vals = new ContentValues();
+        Food food;
 
-        vals.put(Food._NAME, name);
-        vals.put(Food._PRICE, price);
+        // Only add food if no food exists w/ that name
+        if ((food = getFoodByName(name)) == null) {
+            name = name.toLowerCase(); // Enforce lowercase on food names
+            ContentValues vals = new ContentValues();
 
-        int id = (int) db.insert(_FOODS, null, vals);
-        Food food = new Food(id, name, price);
+            vals.put(Food._NAME, name);
+            vals.put(Food._PRICE, price);
 
-        foods.put(id, food);
+            int id = (int) db.insert(_FOODS, null, vals);
+            foods.put(id, food);
+        } else {
+            food.setPrice(price);
+        }
+
         return food;
     }
 
@@ -171,6 +255,16 @@ public class Database extends SQLiteOpenHelper {
                     cursor.getInt(2)        // Price
             );
             foods.put(food.getID(), food);
+
+            // Iterate through list of tags for each food item
+            Cursor c2 = db.rawQuery("SELECT * FROM " + _FOOD_TAGS +
+                    " WHERE " + Food._ID + "=" + food.getID(), null);
+
+            if (c2.moveToFirst()) do {
+                food.addTag(c2.getString(1));
+            } while (c2.moveToNext());
+
+            c2.close();
         } while (cursor.moveToNext());
 
         cursor.close();
@@ -214,16 +308,38 @@ public class Database extends SQLiteOpenHelper {
         for (GroceryList gl : getGroceryLists()) {
             saveGroceryList(gl);
         }
+        for (Budget b : budgets) {
+            saveBudget(b);
+        }
     }
 
     // Save specific food item to DB
     public void saveFood(Food food) {
+        // Update basic info first
         ContentValues vals = new ContentValues();
 
         vals.put(Food._NAME, food.getName());
         vals.put(Food._PRICE, food.getPrice());
 
         db.update(_FOODS, vals, Food._ID + "=" + food.getID(), null);
+
+        // Next, delete old tags from food item
+        db.delete(_FOOD_TAGS, Food._ID + "=" + food.getID(), null);
+
+        // Finally, add new tags to food item
+        db.beginTransaction();
+        try {
+            vals = new ContentValues();
+            for (String t : food.getTags()) {
+                vals.put(Food._ID, food.getID());
+                vals.put(Food._TAG, t);
+
+                db.insert(_LIST_FOODS, null, vals);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     // Save specific grocery list to DB
@@ -255,6 +371,18 @@ public class Database extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
+    }
+
+    // Save specific monthly budget to DB
+    public void saveBudget(Budget budget) {
+        ContentValues vals = new ContentValues();
+
+        vals.put(Budget._TOTAL, budget.getTotal());
+        vals.put(Budget._SPENT, budget.getSpent());
+
+        db.update(_BUDGETS, vals,
+                Budget._YEAR + "=" + budget.getYear()
+                + " AND " + Budget._MONTH + "=" + budget.getMonth(), null);
     }
 
 }

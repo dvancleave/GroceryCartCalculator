@@ -1,7 +1,9 @@
 package team2.grocerycartcalculator.team2.grocerycartcalculator.db;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,6 +84,13 @@ public class GroceryList {
         for (Map.Entry<Food, Integer> e : foods.entrySet()) {
             totalPrice += e.getKey().getPrice() * e.getValue(); // add price * quantity to total
         }
+    }
+
+    // Get all the tags associate w/ this list (i.e. the tags of each food item combined)
+    public List<String> getAllTags() {
+        List<String> tags = new ArrayList<>();
+        for (Food f : foods.keySet()) tags.addAll(f.getTags());
+        return tags;
     }
 
 }

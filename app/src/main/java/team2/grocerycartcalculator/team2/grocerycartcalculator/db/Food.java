@@ -1,5 +1,8 @@
 package team2.grocerycartcalculator.team2.grocerycartcalculator.db;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Holds data for individual food items
  * Protected fields are for DB use only
@@ -13,17 +16,20 @@ public class Food {
     protected static String _PRICE = "price";
     // Used in other tables
     protected static String _QUANTITY = "quantity";
+    protected static String _TAG = "quantity";
 
     // Fields
     private int id; // DB table id
     private String name; // name of food item
     private int price; // price in pennies
+    private List<String> tags; // List of descriptive tags for this food item
 
     // Constructors
     protected Food(int id, String name, int price) {
         this.id = id;
         this.name = name;
         this.price = price;
+        tags = new ArrayList<>();
     }
 
     // Getters
@@ -36,6 +42,9 @@ public class Food {
     public int getPrice() {
         return price;
     }
+    public List<String> getTags() {
+        return tags;
+    }
 
     // Setters
     public void setName(String name) {
@@ -44,4 +53,14 @@ public class Food {
     public void setPrice(int price) {
         this.price = price;
     }
+
+    // Adders & Removers (return value: true = something was changed, false = nothing changed)
+    public boolean addTag(String tag) { return tags.add(tag.toLowerCase()); }
+    public boolean removeTag(String tag) { return tags.remove(tag.toLowerCase()); }
+
+    // Returns whether this food item has the given tag
+    public boolean hasTag(String tag) {
+        return tags.contains(tag.toLowerCase());
+    }
+
 }
