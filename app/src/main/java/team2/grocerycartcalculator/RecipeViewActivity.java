@@ -1,5 +1,6 @@
 package team2.grocerycartcalculator;
 
+import android.app.SearchManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,11 +16,18 @@ public class RecipeViewActivity extends AppCompatActivity {
 
     ArrayList<String> recipeList = new ArrayList<String>();
     ArrayAdapter<String> adapter;
+    View rootView;
+    SearchView searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_view);
+
+        rootView = findViewById(R.id.recipeRoot);
+        searchBar = findViewById(R.id.recipeSearchView);
+        searchBar.clearFocus();
+
         final ListView listView = findViewById(R.id.recipeListView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -29,9 +37,21 @@ public class RecipeViewActivity extends AppCompatActivity {
                 startListActivity(recipeName);
             }
         });
+        //TODO: Load the recipe list from the database
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
         listView.setAdapter(adapter);
-        //overridePendingTransition(R.anim.slide_right, R.anim.slide_right);
+
+        //Do the search if applicable
+        handleIntent(getIntent());
+    }
+
+    @Override
+    protected void onResume( )
+    {
+        super.onResume();
+
+        searchBar.clearFocus();
+        rootView.requestFocus();
     }
 
     public void startCalendarActivity(View view)
@@ -52,5 +72,13 @@ public class RecipeViewActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GroceryListSelectActivity.class);
         intent.putExtra("QueryName", queryName);
         startActivity(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            //use the query to search your data somehow
+        }
     }
 }

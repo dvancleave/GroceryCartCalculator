@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team2.grocerycartcalculator.RecipeViewActivity">
+    tools:context="team2.grocerycartcalculator.RecipeViewActivity"
+    android:id="@+id/recipeRoot">
 
 
     <android.support.v7.widget.Toolbar
@@ -23,9 +24,10 @@
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:layout_marginEnd="0dp"
             android:orientation="horizontal"
-            android:weightSum="3">
+            android:weightSum="3"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="28dp">
 
             <android.support.v4.widget.Space
                 android:layout_width="wrap_content"
@@ -71,9 +73,9 @@
         android:id="@+id/addRecipeButton"
         android:layout_width="72dp"
         android:layout_height="61dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/calendar_button"
+        android:src="@drawable/add_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:onClick="addRecipeButton"/>
@@ -82,7 +84,7 @@
         android:id="@+id/recipeSearchView"
         android:layout_width="257dp"
         android:layout_height="50dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
         android:cursorVisible="false"
         android:iconifiedByDefault="false"
