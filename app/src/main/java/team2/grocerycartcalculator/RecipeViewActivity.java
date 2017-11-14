@@ -12,6 +12,8 @@ import android.widget.SearchView;
 
 import java.util.ArrayList;
 
+import team2.grocerycartcalculator.team2.grocerycartcalculator.db.Database;
+
 public class RecipeViewActivity extends AppCompatActivity {
 
     ArrayList<String> recipeList = new ArrayList<String>();
@@ -27,6 +29,7 @@ public class RecipeViewActivity extends AppCompatActivity {
         rootView = findViewById(R.id.recipeRoot);
         searchBar = findViewById(R.id.recipeSearchView);
         searchBar.clearFocus();
+        rootView.requestFocus();
 
         final ListView listView = findViewById(R.id.recipeListView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -38,6 +41,8 @@ public class RecipeViewActivity extends AppCompatActivity {
             }
         });
         //TODO: Load the recipe list from the database
+        //Load up the database for the generic query
+
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
         listView.setAdapter(adapter);
 

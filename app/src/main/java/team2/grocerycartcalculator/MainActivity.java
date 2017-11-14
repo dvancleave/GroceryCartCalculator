@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 
-public class MainActivity extends AppCompatActivity {
+import team2.grocerycartcalculator.team2.grocerycartcalculator.db.Database;
 
+public class MainActivity extends AppCompatActivity {
+    public static Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
                 startGroceryListActivity();
             }
         });
+        database = new Database(this);
     }
 
     public void startGroceryListActivity()
