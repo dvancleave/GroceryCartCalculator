@@ -8,38 +8,30 @@ import android.widget.SimpleAdapter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
+
+import team2.grocerycartcalculator.team2.grocerycartcalculator.db.Database;
+import team2.grocerycartcalculator.team2.grocerycartcalculator.db.GroceryList;
 
 public class ListActivity extends AppCompatActivity {
-    ListView itemsView;
-    ArrayList<String> itemNames = new ArrayList<String>();
-    Calendar currentDate = Calendar.getInstance();
 
-    void fillExampleNames(){
-        for(int i=0; i<5; i++){
-            itemNames.add("List"+Integer.toString(i));
-        }
-    }
+    Calendar currentDate = Calendar.getInstance();
+    ListView listview;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-
+        listview = (ListView) findViewById(R.id.item_list);
         currentDate.setTimeInMillis(getIntent().getLongExtra("date", 0));
-        itemsView = (ListView) findViewById(R.id.item_list);
 
-        fillExampleNames();
-        ArrayList<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
-        String listHashName = "itemName";
-        for(int i=0; i<itemNames.size();i++){
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put(listHashName, itemNames.get(i));
-            data.add(map);
-        }
-        int resource = R.layout.list_list_item;
-        String[] from = {listHashName};
-        int[] to = {R.id.List_name};
-        SimpleAdapter adapter = new SimpleAdapter(this, data, resource, from, to);
-        itemsView.setAdapter(adapter);
+        //get appropriate grocerylist and add it to this array list
+        ArrayList<GroceryList> inputArray = new ArrayList<GroceryList>();
+        //inputArray.add(grocerylist);
+        list_adapter adapter = new list_adapter(this, R.layout.item_list_item, inputArray);
+        listview.setAdapter(adapter);
+
     }
 }
