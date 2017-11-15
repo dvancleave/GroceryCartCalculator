@@ -11,8 +11,12 @@ import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import team2.grocerycartcalculator.team2.grocerycartcalculator.db.Database;
+import team2.grocerycartcalculator.team2.grocerycartcalculator.db.GroceryList;
+
+import static team2.grocerycartcalculator.MainActivity.database;
 
 public class RecipeViewActivity extends AppCompatActivity {
 
@@ -42,7 +46,9 @@ public class RecipeViewActivity extends AppCompatActivity {
         });
         //TODO: Load the recipe list from the database
         //Load up the database for the generic query
-
+        List<GroceryList> gl =  MainActivity.database.getGroceryLists();
+        for(GroceryList g : gl)
+            recipeList.add(g.getName());
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
         listView.setAdapter(adapter);
 
@@ -70,11 +76,12 @@ public class RecipeViewActivity extends AppCompatActivity {
     {
         recipeList.add("New recipe");
         adapter.notifyDataSetChanged();
+        //TODO: Add a new recipe to the database when the function gets implemented
     }
 
     public void startListActivity(String queryName)
     {
-        Intent intent = new Intent(this, GroceryListSelectActivity.class);
+        Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra("QueryName", queryName);
         startActivity(intent);
     }
