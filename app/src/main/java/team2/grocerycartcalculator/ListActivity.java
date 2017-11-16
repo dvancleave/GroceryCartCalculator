@@ -3,15 +3,11 @@ package team2.grocerycartcalculator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 
-import team2.grocerycartcalculator.team2.grocerycartcalculator.db.Database;
-import team2.grocerycartcalculator.team2.grocerycartcalculator.db.GroceryList;
+import team2.grocerycartcalculator.db.GroceryList;
 
 public class ListActivity extends AppCompatActivity {
 

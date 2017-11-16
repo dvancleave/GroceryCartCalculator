@@ -7,12 +7,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import team2.grocerycartcalculator.team2.grocerycartcalculator.db.GroceryList;
+import team2.grocerycartcalculator.db.GroceryList;
 
 public class GroceryListSelectActivity extends AppCompatActivity {
     ArrayList<String> nameList = new ArrayList<>();

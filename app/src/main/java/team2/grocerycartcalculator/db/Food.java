@@ -1,4 +1,4 @@
-package team2.grocerycartcalculator.team2.grocerycartcalculator.db;
+package team2.grocerycartcalculator.db;
 
 import java.util.HashSet;
 

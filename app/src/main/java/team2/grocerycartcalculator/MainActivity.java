@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 
-import java.util.Calendar;
-
-import team2.grocerycartcalculator.team2.grocerycartcalculator.db.Database;
-import team2.grocerycartcalculator.team2.grocerycartcalculator.db.GroceryList;
+import team2.grocerycartcalculator.db.Database;
 
 public class MainActivity extends AppCompatActivity {
     public static Database database;

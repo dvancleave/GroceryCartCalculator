@@ -13,10 +13,7 @@ import android.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import team2.grocerycartcalculator.team2.grocerycartcalculator.db.Database;
-import team2.grocerycartcalculator.team2.grocerycartcalculator.db.GroceryList;
-
-import static team2.grocerycartcalculator.MainActivity.database;
+import team2.grocerycartcalculator.db.GroceryList;
 
 public class RecipeViewActivity extends AppCompatActivity {
 
