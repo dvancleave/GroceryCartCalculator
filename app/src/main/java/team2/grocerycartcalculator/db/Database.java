@@ -174,8 +174,8 @@ public class Database extends SQLiteOpenHelper {
         return results;
     }
 
-    // Searches all food items and returns those that have each given keyword in either their tags or their name
-    public List<GroceryList> searchGroceryLists(String query) {
+    // Searches all recipes and returns those that have each given keyword in either their tags or their name
+    public List<GroceryList> searchRecipes(String query) {
         String[] keywords = query.split(" ");
         List<GroceryList> results = new ArrayList<>();
 
