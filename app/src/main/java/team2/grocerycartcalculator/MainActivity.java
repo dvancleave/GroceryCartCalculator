@@ -14,6 +14,7 @@ import team2.grocerycartcalculator.db.GroceryList;
 public class MainActivity extends AppCompatActivity {
     public static Database database;
     public static final String GLSA_INTENT_EXTRA = "BM_Date";
+    public static final String LA_INTENT_EXTRA = "BM_ID";
     CalendarView calendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
