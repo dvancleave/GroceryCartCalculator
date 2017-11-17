@@ -24,6 +24,7 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".RecipeViewActivity"/>
+        <activity android:name=".ListActivity"/>
     </application>
 
 </manifest>
