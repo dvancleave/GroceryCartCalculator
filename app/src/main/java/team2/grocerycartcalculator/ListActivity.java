@@ -36,7 +36,7 @@ public class ListActivity extends AppCompatActivity {
         database = new Database(getApplicationContext());
         listview = (ListView) findViewById(R.id.item_list);
         checkoutButton = (Button) findViewById(R.id.checkout_button);
-        groceryListID = getIntent().getIntExtra("QueryName", -2);
+        groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
         groceryList = database.getGroceryListByID(groceryListID);
         //make sure grocerylist exists
         if(groceryList != null){
