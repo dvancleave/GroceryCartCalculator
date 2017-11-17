@@ -12,10 +12,13 @@ import team2.grocerycartcalculator.db.Food;
 import team2.grocerycartcalculator.db.GroceryList;
 
 public class MainActivity extends AppCompatActivity {
-    public static Database database;
     public static final String GLSA_INTENT_EXTRA = "BM_Date";
     public static final String LA_INTENT_EXTRA = "BM_ID";
     CalendarView calendar;
+
+    /**
+     * Sets up the calendar for date selection
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
                 startGroceryListActivity();
             }
         });
-        database = new Database(this);
     }
 
     public void startGroceryListActivity()

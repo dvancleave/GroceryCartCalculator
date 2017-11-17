@@ -61,7 +61,7 @@ public class RecipeViewActivity extends AppCompatActivity {
                 });
 
         //Load up the database for the generic, empty query
-        gl =  new ArrayList<>(MainActivity.database.getRecipes());
+        gl =  new ArrayList<>(StartLoadActivity.database.getRecipes());
         for(GroceryList g : gl)
             recipeList.add(g.getName());
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
@@ -87,7 +87,7 @@ public class RecipeViewActivity extends AppCompatActivity {
 
     public void addRecipeButton(View view)
     {
-        GroceryList ngl = MainActivity.database.addGroceryList("Apple", 0L, true);
+        GroceryList ngl = StartLoadActivity.database.addGroceryList("Apple", 0L, true);
         recipeList.add(ngl.getName());
         gl.add(ngl);
         adapter.notifyDataSetChanged();
@@ -104,7 +104,7 @@ public class RecipeViewActivity extends AppCompatActivity {
 
     public void filterBySearchQuery(String query)
     {
-        gl = new ArrayList<>(MainActivity.database.searchRecipes(query));
+        gl = new ArrayList<>(StartLoadActivity.database.searchRecipes(query));
         recipeList.clear();
         for (GroceryList g : gl)
             recipeList.add(g.getName());

@@ -42,7 +42,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
                 startListActivity(groceryListID);
             }
         });
-        gl =  new ArrayList<>(MainActivity.database.getGroceryLists());
+        gl =  new ArrayList<>(StartLoadActivity.database.getGroceryLists());
         for(GroceryList g : gl)
             nameList.add(g.getName());
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nameList);
@@ -52,7 +52,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
     public void addGroceryList(View view)
     {
         // Will finish this when we get the right methods from the database
-        GroceryList ngl = MainActivity.database.addGroceryList("New Grocery List", date, false);
+        GroceryList ngl = StartLoadActivity.database.addGroceryList("New Grocery List", date, false);
         nameList.add(ngl.getName());
         gl.add(ngl);
         adapter.notifyDataSetChanged();

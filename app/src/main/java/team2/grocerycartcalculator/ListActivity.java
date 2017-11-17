@@ -33,7 +33,7 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
 
         //instantiating variables
-        database = new Database(getApplicationContext());
+        database = StartLoadActivity.database;
         listview = (ListView) findViewById(R.id.item_list);
         checkoutButton = (Button) findViewById(R.id.checkout_button);
         groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
