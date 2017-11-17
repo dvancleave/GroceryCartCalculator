@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import team2.grocerycartcalculator.db.Database;
 import team2.grocerycartcalculator.db.Food;
 import team2.grocerycartcalculator.db.GroceryList;
 
