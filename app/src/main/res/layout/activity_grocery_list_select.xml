@@ -12,7 +12,9 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/transparent"
         android:onClick="addGroceryList"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/add_button"
         tools:layout_editor_absoluteX="8dp" />
