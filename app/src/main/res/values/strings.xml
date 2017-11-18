@@ -4,4 +4,6 @@
     <string name="calendar_button_title">Calendar</string>
     <string name="recipe_view_button_title">Recipes</string>
     <string name="no_title"></string>
+    <string name="glsa_intent_key">BM_Date</string>
+    <string name="la_intent_key">BM_ID</string>
 </resources>

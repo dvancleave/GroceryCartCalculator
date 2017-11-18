@@ -15,7 +15,7 @@ import team2.grocerycartcalculator.db.GroceryList;
 
 public class GroceryListSelectActivity extends AppCompatActivity {
     ArrayList<String> nameList = new ArrayList<>();
-    List<GroceryList> gl;
+    ArrayList<GroceryList> gl;
     ArrayAdapter<String> adapter;
     View rootView;
     long date;
@@ -42,7 +42,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
                 startListActivity(groceryListID);
             }
         });
-        gl =  MainActivity.database.getGroceryLists();
+        gl =  new ArrayList<>(StartLoadActivity.database.getGroceryLists());
         for(GroceryList g : gl)
             nameList.add(g.getName());
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nameList);
@@ -52,13 +52,16 @@ public class GroceryListSelectActivity extends AppCompatActivity {
     public void addGroceryList(View view)
     {
         // Will finish this when we get the right methods from the database
-        //MainActivity.database.addGroceryList("New Grocery List", date);
+        GroceryList ngl = StartLoadActivity.database.addGroceryList("New Grocery List", date, false);
+        nameList.add(ngl.getName());
+        gl.add(ngl);
+        adapter.notifyDataSetChanged();
     }
 
     public void startListActivity(int listID)
     {
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra("QueryName", listID);
+        intent.putExtra(MainActivity.LA_INTENT_EXTRA, listID);
         startActivity(intent);
     }
 }

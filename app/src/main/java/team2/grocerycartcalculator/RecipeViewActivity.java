@@ -18,6 +18,7 @@ import team2.grocerycartcalculator.db.GroceryList;
 public class RecipeViewActivity extends AppCompatActivity {
 
     ArrayList<String> recipeList = new ArrayList<String>();
+    ArrayList<GroceryList> gl;
     ArrayAdapter<String> adapter;
     View rootView;
     SearchView searchBar;
@@ -33,24 +34,39 @@ public class RecipeViewActivity extends AppCompatActivity {
         rootView.requestFocus();
 
         final ListView listView = findViewById(R.id.recipeListView);
+        // Set the listener for our recipe list
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String recipeName = (String) listView.getItemAtPosition(position);
-                //Edit the recipe, which needs to load its own data from the database
-                startListActivity(recipeName);
+                // We get the ids from the list references we store
+                int groceryListID = gl.get(position).getID();
+                startListActivity(groceryListID);
             }
         });
-        //TODO: Load the recipe list from the database
-        //Load up the database for the generic query
-        List<GroceryList> gl =  MainActivity.database.getGroceryLists();
+
+        // Now set the listener for our search bar
+        searchBar.setOnQueryTextListener(
+                new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        // your text view here
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        filterBySearchQuery(query);
+                        return true;
+                    }
+                });
+
+        //Load up the database for the generic, empty query
+        gl =  new ArrayList<>(StartLoadActivity.database.getRecipes());
         for(GroceryList g : gl)
             recipeList.add(g.getName());
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
         listView.setAdapter(adapter);
 
-        //Do the search if applicable
-        handleIntent(getIntent());
     }
 
     @Override
@@ -71,23 +87,27 @@ public class RecipeViewActivity extends AppCompatActivity {
 
     public void addRecipeButton(View view)
     {
-        recipeList.add("New recipe");
+        GroceryList ngl = StartLoadActivity.database.addGroceryList("Apple", 0L, true);
+        recipeList.add(ngl.getName());
+        gl.add(ngl);
         adapter.notifyDataSetChanged();
-        //TODO: Add a new recipe to the database when the function gets implemented
     }
 
-    public void startListActivity(String queryName)
+    public void startListActivity(int listID)
     {
+        // We put in the id into the intent so that the view can load it up
         Intent intent = new Intent(this, ListActivity.class);
-        intent.putExtra("QueryName", queryName);
+        intent.putExtra(MainActivity.LA_INTENT_EXTRA, listID);
         startActivity(intent);
     }
 
-    private void handleIntent(Intent intent) {
 
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            //use the query to search your data somehow
-        }
+    public void filterBySearchQuery(String query)
+    {
+        gl = new ArrayList<>(StartLoadActivity.database.searchRecipes(query));
+        recipeList.clear();
+        for (GroceryList g : gl)
+            recipeList.add(g.getName());
+        adapter.notifyDataSetChanged();
     }
 }
