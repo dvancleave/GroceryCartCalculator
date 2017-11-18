@@ -135,6 +135,22 @@ public class Database extends SQLiteOpenHelper {
         return recipes;
     }
 
+    // Gets the list of GroceryLists for a specific day
+    public List<GroceryList> getGroceryListsByDay(Calendar date) {
+        List<GroceryList> glists = new ArrayList<>();
+        for (GroceryList gl : lists.values()) {
+            if (gl.getDate().get(Calendar.DAY_OF_YEAR) == date.get(Calendar.DAY_OF_YEAR)
+                    && gl.getDate().get(Calendar.YEAR) == date.get(Calendar.YEAR))
+                glists.add(gl);
+        }
+        return glists;
+    }
+    public List<GroceryList> getGroceryListsByDay(long dayInMillis) {
+        Calendar date = Calendar.getInstance();
+        date.setTimeInMillis(dayInMillis);
+        return getGroceryListsByDay(date);
+    }
+
     // Gets a food item by its name (must be the exact name, ignoring case)
     public Food getFoodByID(int id) {
         return foods.get(id);
