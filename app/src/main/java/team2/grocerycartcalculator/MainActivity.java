@@ -50,4 +50,10 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("This line was executed");
 
     }
+
+    public void startTestActivity(View view)
+    {
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
 }
