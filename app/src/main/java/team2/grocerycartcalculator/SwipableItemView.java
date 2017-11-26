@@ -43,6 +43,7 @@ public class SwipableItemView extends AppCompatTextView {
     private static final float  DISP_X_AVERAGING_FACTOR = 0.80f; // How much of the original do we keep
     private static final long   TOUCH_PICKUP_TIME = 50; // 50 ms
     private static final float  SWIPE_DISP_MOD = 5f;
+    private static final float  DELETE_BUTTON_WIDTH = .10f; // Fraction of screen width
     /**
      * Constructor for the view
      */
