@@ -182,10 +182,12 @@ public class SwipableItemView extends AppCompatTextView {
     public void changeToSwiped()
     {
         float targetX = originX - getWidth() * SWIPE_FINAL_DISP_PERCENT;
+        /*
         TranslateAnimation animation = new TranslateAnimation(0, targetX - getX(), 0, 0);
         animation.setDuration(SWIPE_TIME);
         animation.setFillAfter(true);
         animation.setAnimationListener(toSwipedAL);
+        //*/
 
         //startAnimation(animation);
         setX(targetX);
@@ -194,10 +196,12 @@ public class SwipableItemView extends AppCompatTextView {
     public void changeToNotSwiped()
     {
         float targetX = originX;
+        /*
         TranslateAnimation animation = new TranslateAnimation(0, targetX - getX(), 0, 0);
         animation.setDuration(SWIPE_TIME);
         animation.setFillAfter(true);
         animation.setAnimationListener(toNotSwipedAL);
+        //*/
 
         //startAnimation(animation);
         setX(targetX);

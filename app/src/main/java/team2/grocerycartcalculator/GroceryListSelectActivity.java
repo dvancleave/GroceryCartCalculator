@@ -42,7 +42,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
                 startListActivity(groceryListID);
             }
         });
-        gl =  new ArrayList<>(StartLoadActivity.database.getGroceryLists());
+        gl =  new ArrayList<>(StartLoadActivity.database.getGroceryListsByDay(date));
         for(GroceryList g : gl)
             nameList.add(g.getName());
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nameList);

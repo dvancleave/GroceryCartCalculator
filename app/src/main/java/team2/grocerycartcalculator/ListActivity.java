@@ -1,5 +1,6 @@
 package team2.grocerycartcalculator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,8 +9,6 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Map;
 
 import team2.grocerycartcalculator.db.Database;
 import team2.grocerycartcalculator.db.Food;
@@ -24,6 +23,11 @@ public class ListActivity extends AppCompatActivity {
     int groceryListID;
     GroceryList groceryList;
     boolean isRecipe;
+    ArrayList<String> FoodStrings;
+    ArrayAdapter<String> adapter;
+
+    protected static String itemIDKey = "BM_ITEMID";
+    protected static int itemIDResultKey = 1;
 
 
     @Override
@@ -41,7 +45,7 @@ public class ListActivity extends AppCompatActivity {
         //make sure grocerylist exists
         if(groceryList != null){
             ArrayList<Food> Foodlist = new ArrayList<Food>(groceryList.getFoodQuantities().keySet());
-            ArrayList<String> FoodStrings = new ArrayList<String>();
+            FoodStrings = new ArrayList<String>();
             isRecipe = groceryList.isRecipe();
             //hide checkout button if viewing a recipe
             if(isRecipe){
@@ -49,12 +53,35 @@ public class ListActivity extends AppCompatActivity {
             }
 
             //populating arraylist
-            for(int i =0; i<Foodlist.size(); i++){
-                FoodStrings.add(Foodlist.get(i).getName());
-            }
+            for(Food food : Foodlist)
+                FoodStrings.add(food.getName());
+
             //creating and setting adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_list_item, FoodStrings);
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FoodStrings);
             listview.setAdapter(adapter);
+        }
+    }
+
+    public void addItem(View view)
+    {
+        Intent intent = new Intent(this, ItemDatabaseViewActivity.class);
+        startActivityForResult(intent, itemIDResultKey);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == itemIDResultKey && resultCode == RESULT_OK)
+        {
+            int id = data.getIntExtra(itemIDKey, -1);
+            if(id != -1)
+            {
+                Food food = database.getFoodByID(id);
+                groceryList.addFood(food, 1);
+                FoodStrings.add(food.getName());
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 }

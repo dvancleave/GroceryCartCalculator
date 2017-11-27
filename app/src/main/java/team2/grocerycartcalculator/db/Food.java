@@ -32,7 +32,8 @@ public class Food {
     }
 
     // Getters
-    protected int getID() {
+    // Set public for ItemDatabaseViewActivityOld -- Andrew
+    public int getID() {
         return id;
     }
     public String getName() {
