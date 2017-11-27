@@ -276,7 +276,7 @@ public class Database extends SQLiteOpenHelper {
         vals.put(GroceryList._TOTAL_PRICE, isRecipe ? -1 : 0); // -1 = recipe, non-negative = grocery list
 
         int id = (int) db.insert(_LISTS, null, vals);
-        GroceryList list = new GroceryList(id, name, date, 0);
+        GroceryList list = new GroceryList(id, name, date, isRecipe ? -1 : 0);
 
         lists.put(id, list);
         return list;

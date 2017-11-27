@@ -22,7 +22,7 @@
     </RelativeLayout>
 
     <team2.grocerycartcalculator.SwipeableLayout
-        android:id="@+id/swipableLayout"
+        android:id="@+id/swipeableLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/activityBackground">

@@ -27,6 +27,12 @@ public class RecipeViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_view);
+        /*
+        StartLoadActivity.database.addGroceryList("1", 0L, true);
+        StartLoadActivity.database.addGroceryList("2", 0L, true);
+        StartLoadActivity.database.addGroceryList("3", 0L, true);
+        StartLoadActivity.database.addGroceryList("4", 0L, true);
+        //*/
 
         rootView = findViewById(R.id.recipeRoot);
         searchBar = findViewById(R.id.recipeSearchView);
