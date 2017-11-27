@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/stDelete"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/deleteBackground"
+            android:text="DELETE"
+            android:textColor="@color/deleteText" />
+
+    </RelativeLayout>
+
+    <team2.grocerycartcalculator.SwipeableLayout
+        android:id="@+id/swipableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/activityBackground">
+
+        <TextView
+            android:id="@+id/stText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="Item"
+            android:textSize="36sp" />
+
+    </team2.grocerycartcalculator.SwipeableLayout>
+
+</FrameLayout>

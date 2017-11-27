@@ -6,23 +6,14 @@
     android:layout_height="match_parent"
     tools:context="team2.grocerycartcalculator.TestActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="279dp"
-        android:layout_height="462dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <include layout="@layout/swipeable_text_delete_template" />
 
-        <team2.grocerycartcalculator.SwipableItemView
-            android:id="@+id/testItem"
-            android:layout_width="match_parent"
-            android:layout_height="62dp"
-            android:layout_marginTop="44dp"
-            android:text="TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-            android:textSize="30sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    <team2.grocerycartcalculator.SwipeTolerantListView
+        android:id="@+id/testListView"
+        android:layout_width="368dp"
+        android:layout_height="491dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

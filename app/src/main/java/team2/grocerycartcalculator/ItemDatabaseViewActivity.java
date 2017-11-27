@@ -78,9 +78,9 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
 
     public void addItemButton(View view)
     {
-        Food ngl = StartLoadActivity.database.addFood("Apple", 0);
-        itemNameList.add(ngl.getName());
-        itemList.add(ngl);
+        Food food = StartLoadActivity.database.addFood("Apple", 0);
+        itemNameList.add(food.getName());
+        itemList.add(food);
         adapter.notifyDataSetChanged();
     }
 
