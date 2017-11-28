@@ -19,7 +19,7 @@ public class RecipeViewActivity extends AppCompatActivity {
 
     ArrayList<String> recipeList = new ArrayList<String>();
     ArrayList<GroceryList> gl;
-    ArrayAdapter<String> adapter;
+    SwipeableTextAdapter adapter;
     View rootView;
     SearchView searchBar;
 
@@ -39,7 +39,7 @@ public class RecipeViewActivity extends AppCompatActivity {
         searchBar.clearFocus();
         rootView.requestFocus();
 
-        final ListView listView = findViewById(R.id.recipeListView);
+        final SwipeTolerantListView listView = findViewById(R.id.recipeListView);
         // Set the listener for our recipe list
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -70,7 +70,17 @@ public class RecipeViewActivity extends AppCompatActivity {
         gl =  new ArrayList<>(StartLoadActivity.database.getRecipes());
         for(GroceryList g : gl)
             recipeList.add(g.getName());
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, recipeList);
+        adapter = new SwipeableTextAdapter(this, recipeList);
+        adapter.setOnDeleteListener(new onDeleteListener()
+                    {
+                        @Override
+                        public void onDelete(int position) {
+                            int id = gl.get(position).getID();
+                            gl.remove(position);
+                            System.out.println("Removed recipe with id " + id);
+                            //TODO: remove recipe from database
+                        }
+                    });
         listView.setAdapter(adapter);
 
     }
@@ -93,7 +103,7 @@ public class RecipeViewActivity extends AppCompatActivity {
 
     public void addRecipeButton(View view)
     {
-        GroceryList ngl = StartLoadActivity.database.addGroceryList("Apple", 0L, true);
+        GroceryList ngl = StartLoadActivity.database.addGroceryList("New Recipe", 0L, true);
         recipeList.add(ngl.getName());
         gl.add(ngl);
         adapter.notifyDataSetChanged();

@@ -63,6 +63,7 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
                 deleteListener.onDelete(position);
             }
         });
+        swipeableLayout.setDeleteButton(delete);
         return convertView;
     }
 }

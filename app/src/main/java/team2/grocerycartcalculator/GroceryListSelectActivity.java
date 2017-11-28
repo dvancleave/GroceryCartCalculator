@@ -16,7 +16,7 @@ import team2.grocerycartcalculator.db.GroceryList;
 public class GroceryListSelectActivity extends AppCompatActivity {
     ArrayList<String> nameList = new ArrayList<>();
     ArrayList<GroceryList> gl;
-    ArrayAdapter<String> adapter;
+    SwipeableTextAdapter adapter;
     View rootView;
     long date;
     @Override
@@ -33,7 +33,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
             //Do stuff here
         }
 
-        final ListView listView = findViewById(R.id.gls_listview);
+        final SwipeTolerantListView listView = findViewById(R.id.gls_listview);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -45,14 +45,23 @@ public class GroceryListSelectActivity extends AppCompatActivity {
         gl =  new ArrayList<>(StartLoadActivity.database.getGroceryListsByDay(date));
         for(GroceryList g : gl)
             nameList.add(g.getName());
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, nameList);
+        adapter = new SwipeableTextAdapter(this, nameList);
+        adapter.setOnDeleteListener(new onDeleteListener()
+        {
+            @Override
+            public void onDelete(int position) {
+                int id = gl.get(position).getID();
+                gl.remove(position);
+                //TODO: remove grocery list from the database
+            }
+        });
         listView.setAdapter(adapter);
     }
 
     public void addGroceryList(View view)
     {
         // Will finish this when we get the right methods from the database
-        GroceryList ngl = StartLoadActivity.database.addGroceryList("New Grocery List", date, false);
+        GroceryList ngl = StartLoadActivity.database.addGroceryList("New Grocery Listyyyyyyyyyyyyyyyyyyyyyyyy", date, false);
         nameList.add(ngl.getName());
         gl.add(ngl);
         adapter.notifyDataSetChanged();
