@@ -39,16 +39,7 @@ public class RecipeViewActivity extends AppCompatActivity {
         searchBar.clearFocus();
         rootView.requestFocus();
 
-        final SwipeTolerantListView listView = findViewById(R.id.recipeListView);
-        // Set the listener for our recipe list
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // We get the ids from the list references we store
-                int groceryListID = gl.get(position).getID();
-                startListActivity(groceryListID);
-            }
-        });
+        final ListView listView = findViewById(R.id.recipeListView);
 
         // Now set the listener for our search bar
         searchBar.setOnQueryTextListener(
@@ -81,6 +72,21 @@ public class RecipeViewActivity extends AppCompatActivity {
                             //TODO: remove recipe from database
                         }
                     });
+        /*
+         * The listview cannot handle click events since the item itself can handle them. So, we
+         * need to have the item handle the event for us. The item will call this if it detects a
+         * clicking motion
+         */
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Click");
+                int position = listView.getPositionForView(v);
+                int groceryListID = gl.get(position).getID();
+                //Edit the recipe, which needs to load its own data from the database
+                startListActivity(groceryListID);
+            }
+        });
         listView.setAdapter(adapter);
 
     }

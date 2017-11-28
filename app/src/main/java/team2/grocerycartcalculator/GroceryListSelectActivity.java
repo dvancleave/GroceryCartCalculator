@@ -28,20 +28,8 @@ public class GroceryListSelectActivity extends AppCompatActivity {
         //This works confirmed 14/11/17
         Intent intent = getIntent();
         date = intent.getLongExtra(MainActivity.GLSA_INTENT_EXTRA, -1);
-        if(date > -1)
-        {
-            //Do stuff here
-        }
 
-        final SwipeTolerantListView listView = findViewById(R.id.gls_listview);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int groceryListID = gl.get(position).getID();
-                //Edit the recipe, which needs to load its own data from the database
-                startListActivity(groceryListID);
-            }
-        });
+        final ListView listView = findViewById(R.id.gls_listview);
         gl =  new ArrayList<>(StartLoadActivity.database.getGroceryListsByDay(date));
         for(GroceryList g : gl)
             nameList.add(g.getName());
@@ -55,13 +43,28 @@ public class GroceryListSelectActivity extends AppCompatActivity {
                 //TODO: remove grocery list from the database
             }
         });
+        /*
+         * The listview cannot handle click events since the item itself can handle them. So, we
+         * need to have the item handle the event for us. The item will call this if it detects a
+         * clicking motion
+         */
+        adapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Click");
+                int position = listView.getPositionForView(v);
+                int groceryListID = gl.get(position).getID();
+                //Edit the recipe, which needs to load its own data from the database
+                startListActivity(groceryListID);
+            }
+        });
         listView.setAdapter(adapter);
     }
 
     public void addGroceryList(View view)
     {
         // Will finish this when we get the right methods from the database
-        GroceryList ngl = StartLoadActivity.database.addGroceryList("New Grocery Listyyyyyyyyyyyyyyyyyyyyyyyy", date, false);
+        GroceryList ngl = StartLoadActivity.database.addGroceryList("New Grocery List", date, false);
         nameList.add(ngl.getName());
         gl.add(ngl);
         adapter.notifyDataSetChanged();

@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
 import static java.lang.Math.abs;
 
 /**
@@ -14,25 +16,43 @@ import static java.lang.Math.abs;
  * NYI
  */
 public class SwipeableLayout extends RelativeLayout {
-
+    // Used to determine the swipe position we should be in
     private boolean isSwiped = false;
+    // If set, we have started swiping. Moving our finger doesn't change our gesture
     private boolean isSwiping = false;
+    // Used to calculate our dx and dy for swipe recognition
     private float startX;
     private float startY;
-    private float currXDisp = 1.0f; // This is an averaged displacement to eliminate jumping
+    // This is an averaged displacement to eliminate jumping
+    private float currXDisp = 1.0f;
+    // The first x position of this. Used to reset our position
     private float originX;
+    // Starting x position at the beginning of a gesture
     private float swipeOriginX;
+    // Used to keep track of how long it's been since we let go. If low, it is a glitch
     private long lastUpTime = 0L;
+    // Hacky way to set originX since it isn't set on create. Need to set onDraw
     private boolean doOnce = true;
-    public View deleteButton;
+    // Hacky way to do clicks since ListView can't handle these clicks
+    private OnClickListener onClickListener;
+    // Used to keep track of the swiping distance we need to make
+    private View deleteButton;
+    // Threshold before we start swiping. If 0, we swipe as soon as we move. Percentage
     protected static final float    SWIPE_STICK_THRESHOLD = 0.05f;
-    protected static final float    SWIPE_RETURN_THRESHOLD = .80f; // Go to 90% of the disp to return
-    protected static final float    SWIPE_RATIO = .90f;
+    // Percentage of the deleteButton width to go to set
     protected static final float    SWIPE_THRESHOLD_PERCENT = .75f;
+    // Ratio of dx/dy to determine if we are going horizontal enough for swiping
+    protected static final float    SWIPE_RATIO = .90f;
+    // Threshold of the Swipe Threshold to reset
+    protected static final float    SWIPE_RETURN_THRESHOLD = .80f;
+    // How much of the original dispX do we keep
     // Below .80 it jitters too much. Above .95 is too unresponsive
-    protected static final float    DISP_X_AVERAGING_FACTOR = 0.80f; // How much of the original do we keep
+    protected static final float    DISP_X_AVERAGING_FACTOR = 0.80f;
     protected static final long     TOUCH_PICKUP_TIME = 50; // 50 ms
+    // Speeds up our swipe gesture
     protected static final float    SWIPE_DISP_MOD = 5f;
+    // Movement tolerance to be considered a click
+    protected static final float    CLICK_TOLERANCE = 8f;
 
     public SwipeableLayout(Context context) {
         super(context);
@@ -63,26 +83,10 @@ public class SwipeableLayout extends RelativeLayout {
         }
     }
 
-    /*
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event)
+    public void setOnClickListener(OnClickListener listener)
     {
-        boolean ret = super.dispatchTouchEvent(event);
-        if(ret)
-        {
-            /*
-             * If we're swiping currently, then don't let the listview move us.
-             * But if the last upTime is greater than our lift tolerance and we have lifted our
-             * finger, then we stopped swiping. The touchEvent hasn't set isSwiping to false yet,
-             * but we should recognise this
-             /
-            long currTime = System.nanoTime() / 1000000;
-            boolean isLifted = lifted && (currTime - lastUpTime) > TOUCH_PICKUP_TIME;
-            //requestDisallowInterceptTouchEvent(isSwiping && !isLifted);
-        }
-        return ret;
+        onClickListener = listener;
     }
-    //*/
 
     @Override
     public boolean onTouchEvent(MotionEvent event)
@@ -143,27 +147,42 @@ public class SwipeableLayout extends RelativeLayout {
                 if(isSwiped)
                     changeToSwiped();
                 else
+                {
                     changeToNotSwiped();
+                    // Check if we clicked
+                    dx = startX - event.getX();
+                    dy = startY - event.getY();
+                    if(!isSwiping && abs(dx) < CLICK_TOLERANCE && abs(dy) < CLICK_TOLERANCE)
+                    {
+                        // Make us do the click event
+                        if(onClickListener != null)
+                            onClickListener.onClick(this);
+                    }
+                }
                 break;
             default:
                 return super.onTouchEvent(event);
         }
+        // If we are swiping, then don't let the listview scroll. Otherwise, let it scroll
         requestDisallowInterceptTouchEvent(isSwiping);
         return true;
     }
 
+    // Moves this to the swiped position
     public void changeToSwiped()
     {
         float targetX = originX - deleteButton.getWidth();
         setX(targetX);
     }
 
+    // Moves this to the not swiped position
     public void changeToNotSwiped()
     {
         float targetX = originX;
         setX(targetX);
     }
 
+    // Averaging function to smoothen the motion
     private float expAverage(float old, float x, float alpha)
     {
         float a = old*alpha;

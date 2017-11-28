@@ -16,7 +16,8 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
 
     private Context context;
     private ArrayList<String> values;
-    private onDeleteListener deleteListener = new onDeleteListener();
+    private onDeleteListener deleteListener;
+    private View.OnClickListener onClickListener;
 
     public SwipeableTextAdapter(Context context, ArrayList<String> values) {
         super(context, -1, values);
@@ -39,6 +40,11 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
         deleteListener = listener;
     }
 
+    public void setOnClickListener(View.OnClickListener listener)
+    {
+        onClickListener = listener;
+    }
+
     @Override
     @NonNull
     public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
@@ -59,11 +65,13 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
                 //do something
                 swipeableLayout.changeToNotSwiped();
                 adapter.values.remove(position); //or some other task
+                if(deleteListener != null)
+                    deleteListener.onDelete(position);
                 adapter.notifyDataSetChanged();
-                deleteListener.onDelete(position);
             }
         });
         swipeableLayout.setDeleteButton(delete);
+        swipeableLayout.setOnClickListener(onClickListener);
         return convertView;
     }
 }

@@ -33,7 +33,7 @@
         app:layout_constraintStart_toEndOf="@+id/imageButton2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <team2.grocerycartcalculator.SwipeTolerantListView
+    <ListView
         android:id="@+id/gls_listview"
         android:layout_width="368dp"
         android:layout_height="478dp"
