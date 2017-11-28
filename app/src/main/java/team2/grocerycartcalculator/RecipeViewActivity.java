@@ -80,7 +80,6 @@ public class RecipeViewActivity extends AppCompatActivity {
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Click");
                 int position = listView.getPositionForView(v);
                 int groceryListID = gl.get(position).getID();
                 //Edit the recipe, which needs to load its own data from the database

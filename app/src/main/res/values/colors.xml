@@ -7,4 +7,5 @@
     <color name="searchColor">#55555555</color>
     <color name="deleteBackground">#aa3030</color>
     <color name="deleteText">#602020</color>
+    <color name="darkenedTransparent">#80000000</color>
 </resources>

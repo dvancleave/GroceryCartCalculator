@@ -259,6 +259,7 @@ public class Database extends SQLiteOpenHelper {
             vals.put(Food._PRICE, price);
 
             int id = (int) db.insert(_FOODS, null, vals);
+            food = new Food(id, name, price);
             foods.put(id, food);
         } else {
             food.setPrice(price);

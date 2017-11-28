@@ -73,14 +73,15 @@
         android:id="@+id/addRecipeButton"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/add_button"
         android:onClick="addRecipeButton"
         android:scaleType="centerCrop"
         android:src="@drawable/add_button"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/add_button"/>
 
     <SearchView
         android:id="@+id/recipeSearchView"

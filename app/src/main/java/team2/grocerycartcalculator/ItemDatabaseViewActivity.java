@@ -20,6 +20,7 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     View rootView;
     SearchView searchBar;
+    int state = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +79,7 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
 
     public void addItemButton(View view)
     {
-        Food food = StartLoadActivity.database.addFood("Apple", 0);
+        Food food = StartLoadActivity.database.addFood("dpple", 0);
         itemNameList.add(food.getName());
         itemList.add(food);
         adapter.notifyDataSetChanged();
@@ -86,11 +87,16 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
 
     public void filterBySearchQuery(String query)
     {
-        //TODO: updte list by query
+        //TODO: update list by query
         itemList = new ArrayList<>(StartLoadActivity.database.searchFoods(query));
         itemNameList.clear();
         for (Food g : itemList)
             itemNameList.add(g.getName());
         adapter.notifyDataSetChanged();
+    }
+
+    public void exitAdd(View view)
+    {
+        state = 0;
     }
 }

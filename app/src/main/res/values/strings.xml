@@ -6,4 +6,5 @@
     <string name="no_title"></string>
     <string name="glsa_intent_key">BM_Date</string>
     <string name="la_intent_key">BM_ID</string>
+    <string name="add_button">Add Button</string>
 </resources>
