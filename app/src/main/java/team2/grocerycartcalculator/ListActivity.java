@@ -49,14 +49,15 @@ public class ListActivity extends AppCompatActivity {
         groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
         groceryList = database.getGroceryListByID(groceryListID);
         //make sure grocerylist exists
+        checkoutButton.setVisibility(View.GONE);
         if(groceryList != null){
             ArrayList<Food> Foodlist = new ArrayList<Food>(groceryList.getFoodQuantities().keySet());
             FoodStrings = new ArrayList<String>();
             isRecipe = groceryList.isRecipe();
             //hide checkout button if viewing a recipe
-            if(isRecipe){
-                checkoutButton.setVisibility(View.GONE);
-            }
+            if(!isRecipe){
+                checkoutButton.setVisibility(View.VISIBLE);
+        }
 
             //populating arraylist
             for(Food food : Foodlist)
