@@ -28,8 +28,10 @@ public class List_Item {
         return quantity;
     }
 
-    float getPrice() {
-        return price;
+    String getPrice() {
+        float priceFloat = price/100;
+        String priceString = Float.toString(priceFloat);
+        return priceString;
     }
 
     public void setQuantity(int quantity) {
