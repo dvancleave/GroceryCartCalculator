@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import team2.grocerycartcalculator.db.Database;
 import team2.grocerycartcalculator.db.Food;
@@ -23,8 +24,8 @@ public class ListActivity extends AppCompatActivity {
     int groceryListID;
     GroceryList groceryList;
     boolean isRecipe;
-    ArrayList<String> FoodStrings;
-    ArrayAdapter<String> adapter;
+    ArrayList<List_Item> foodList;
+    SwipableListAdapter adapter;
 
     protected static String itemIDKey = "BM_ITEMID";
     protected static int itemIDResultKey = 1;
@@ -46,27 +47,22 @@ public class ListActivity extends AppCompatActivity {
 
         //instantiating variables
         database = StartLoadActivity.database;
-        listview = (ListView) findViewById(R.id.item_list);
-        checkoutButton = (Button) findViewById(R.id.checkout_button);
+        listview = findViewById(R.id.item_list);
+        checkoutButton =  findViewById(R.id.checkout_button);
         groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
         groceryList = database.getGroceryListByID(groceryListID);
         //make sure grocerylist exists
         checkoutButton.setVisibility(View.GONE);
+
         if(groceryList != null){
-            ArrayList<Food> Foodlist = new ArrayList<Food>(groceryList.getFoodQuantities().keySet());
-            FoodStrings = new ArrayList<String>();
             isRecipe = groceryList.isRecipe();
-            //hide checkout button if viewing a recipe
+            //show checkout button if viewing grocerylist
             if(!isRecipe){
                 checkoutButton.setVisibility(View.VISIBLE);
-        }
-
-            //populating arraylist
-            for(Food food : Foodlist)
-                FoodStrings.add(food.getName());
-
+            }
+            populateFoodList();
             //creating and setting adapter
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FoodStrings);
+            adapter = new SwipableListAdapter(this, foodList);
             listview.setAdapter(adapter);
         }
     }
@@ -88,9 +84,17 @@ public class ListActivity extends AppCompatActivity {
             {
                 Food food = database.getFoodByID(id);
                 groceryList.addFood(food, 1);
-                FoodStrings.add(food.getName());
+                foodList.add(new List_Item(food, 1));
                 adapter.notifyDataSetChanged();
             }
         }
+    }
+    public void populateFoodList(){
+        Map<Food, Integer> listmap =  groceryList.getFoodQuantities();
+        ArrayList<Food> foods = new ArrayList<>(listmap.keySet());
+        for(int i=0; i<foods.size(); i++){
+            foodList.add(new List_Item(foods.get(i), listmap.get(foods.get(i))));
+        }
+
     }
 }

@@ -13,7 +13,7 @@ public class List_Item {
     String units;
     float price;
 
-    void List_Item(Food food, int quantity){
+    List_Item(Food food, int quantity){
         name = food.getName();
         this.quantity = quantity;
         price = food.getPrice();
