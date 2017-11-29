@@ -27,12 +27,6 @@ public class RecipeViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_view);
-        /*
-        StartLoadActivity.database.addGroceryList("1", 0L, true);
-        StartLoadActivity.database.addGroceryList("2", 0L, true);
-        StartLoadActivity.database.addGroceryList("3", 0L, true);
-        StartLoadActivity.database.addGroceryList("4", 0L, true);
-        //*/
 
         rootView = findViewById(R.id.recipeRoot);
         searchBar = findViewById(R.id.recipeSearchView);
@@ -70,7 +64,6 @@ public class RecipeViewActivity extends AppCompatActivity {
                             gl.remove(position);
                             System.out.println("Removed recipe with id " + id);
                             StartLoadActivity.database.deleteGroceryList(id);
-                            //TODO: remove recipe from database
                         }
                     });
         /*
@@ -89,15 +82,6 @@ public class RecipeViewActivity extends AppCompatActivity {
         });
         listView.setAdapter(adapter);
 
-    }
-
-    @Override
-    protected void onResume( )
-    {
-        super.onResume();
-
-        searchBar.clearFocus();
-        rootView.requestFocus();
     }
 
     public void startCalendarActivity(View view)

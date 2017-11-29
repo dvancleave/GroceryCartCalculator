@@ -79,13 +79,7 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume( )
-    {
-        super.onResume();
-        rootView.requestFocus();
-    }
-
+    //Functions for selecting unit type. Glorified wrappers
     public void selectLiquid(View view)
     {
         unitType = UNIT_LIQUID;

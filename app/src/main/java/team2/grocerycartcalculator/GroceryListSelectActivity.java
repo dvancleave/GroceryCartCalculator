@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import team2.grocerycartcalculator.db.GroceryList;
@@ -19,6 +23,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
     SwipeableTextAdapter adapter;
     View rootView;
     long date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +46,6 @@ public class GroceryListSelectActivity extends AppCompatActivity {
                 int id = gl.get(position).getID();
                 gl.remove(position);
                 StartLoadActivity.database.deleteGroceryList(id);
-                //TODO: remove grocery list from the database
             }
         });
         /*
@@ -59,6 +63,12 @@ public class GroceryListSelectActivity extends AppCompatActivity {
             }
         });
         listView.setAdapter(adapter);
+
+        // Set the date text at the top
+        DateFormat formatter = DateFormat.getDateInstance();
+        String dateString = formatter.format(new Date(date));
+        TextView dateText = findViewById(R.id.glsaDate);
+        dateText.setText(dateString);
     }
 
     public void addGroceryList(View view)

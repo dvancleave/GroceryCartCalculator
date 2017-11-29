@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         calendar = findViewById(R.id.calendarView);
-        //overridePendingTransition(R.anim.slide_right, R.anim.slide_left);
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    // Start GLSA
     public void startGroceryListActivity()
     {
         Intent intent = new Intent(this, GroceryListSelectActivity.class);
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("This line was executed");
     }
 
+    // Switches to RV activity, bottom task bar function
     public void startRecipeViewActivity(View view)
     {
         Intent intent = new Intent(this, RecipeViewActivity.class);

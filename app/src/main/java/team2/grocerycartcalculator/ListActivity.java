@@ -29,6 +29,8 @@ public class ListActivity extends AppCompatActivity {
     protected static String itemIDKey = "BM_ITEMID";
     protected static int itemIDResultKey = 1;
 
+    // Save onPause, which is when this activity goes out of focus or is deleted
+    // We save here because we get more time. We don't get a lot of time, if any, for onDelete
     @Override
     public void onPause()
     {
