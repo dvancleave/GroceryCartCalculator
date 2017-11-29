@@ -40,6 +40,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
             public void onDelete(int position) {
                 int id = gl.get(position).getID();
                 gl.remove(position);
+                StartLoadActivity.database.deleteGroceryList(id);
                 //TODO: remove grocery list from the database
             }
         });

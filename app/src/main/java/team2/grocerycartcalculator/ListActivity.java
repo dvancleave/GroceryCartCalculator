@@ -29,6 +29,12 @@ public class ListActivity extends AppCompatActivity {
     protected static String itemIDKey = "BM_ITEMID";
     protected static int itemIDResultKey = 1;
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        database.saveGroceryList(groceryList);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

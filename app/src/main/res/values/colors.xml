@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#ff4081</color>
-    <color name="activityBackground">#FFEEEEEE</color>
+    <color name="activityBackground">#eeeeee</color>
     <color name="searchColor">#55555555</color>
     <color name="deleteBackground">#aa3030</color>
     <color name="deleteText">#602020</color>

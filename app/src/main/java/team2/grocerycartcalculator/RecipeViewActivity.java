@@ -69,6 +69,7 @@ public class RecipeViewActivity extends AppCompatActivity {
                             int id = gl.get(position).getID();
                             gl.remove(position);
                             System.out.println("Removed recipe with id " + id);
+                            StartLoadActivity.database.deleteGroceryList(id);
                             //TODO: remove recipe from database
                         }
                     });
