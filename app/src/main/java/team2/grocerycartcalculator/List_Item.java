@@ -24,8 +24,8 @@ public class List_Item {
         return name;
     }
 
-    int getQuantity() {
-        return quantity;
+    String getQuantity() {
+        return Integer.toString(quantity);
     }
 
     String getPrice() {

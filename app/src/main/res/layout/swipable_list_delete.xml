@@ -5,14 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/swipeableLayout"
-        android:layout_alignTop="@id/swipeableLayout">
+        android:layout_height="match_parent">
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/list_Item_Delete"
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/deleteBackground"
+            android:text="DELETE"
+            android:textColor="@color/deleteText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
 
     <team2.grocerycartcalculator.SwipeableLayout
         android:id="@+id/swipeableListLayout"
@@ -26,7 +36,7 @@
 
             <TextView
                 android:id="@+id/item_name_text"
-                android:layout_width="130dp"
+                android:layout_width="114dp"
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
@@ -42,46 +52,36 @@
 
             <TextView
                 android:id="@+id/quantity_text"
-                android:layout_width="62dp"
+                android:layout_width="57dp"
                 android:layout_height="48dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:inputType=""
+                android:textSize="36sp"
                 app:layout_constraintStart_toEndOf="@+id/item_name_text"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/units_spinner"
-                android:layout_width="70dp"
-                android:layout_height="53dp"
-                android:layout_marginStart="8dp"
+                android:layout_width="74dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toEndOf="@+id/quantity_text"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/price_text"
-                android:layout_width="68dp"
+                android:layout_width="60dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
+                android:textSize="36sp"
                 app:layout_constraintStart_toEndOf="@+id/units_spinner"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/list_Item_Delete"
-                android:layout_width="80dp"
-                android:layout_height="50dp"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/relativeLayout"
-                android:background="@color/deleteBackground"
-                android:text="DELETE"
-                android:textColor="@color/deleteText"
-                tools:layout_editor_absoluteX="304dp"
-                tools:layout_editor_absoluteY="16dp" />
         </android.support.constraint.ConstraintLayout>
 
     </team2.grocerycartcalculator.SwipeableLayout>

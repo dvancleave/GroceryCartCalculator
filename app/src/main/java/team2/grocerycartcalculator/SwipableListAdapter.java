@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import team2.grocerycartcalculator.db.Food;
+
 public class SwipableListAdapter extends ArrayAdapter<List_Item> {
     private Context context;
     private ArrayList<List_Item> values;
@@ -53,10 +55,12 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         ArrayAdapter<String> unitsAdapter = new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, unitslist);
 
         //set textviews texts
-        nameView.setText(values.get(position).getName());
-        quantityView.setText(values.get(position).getQuantity());
-        priceView.setText(values.get(position).getPrice());
-
+        if(values.get(position)!= null) {
+            nameView.setText(values.get(position).getName());
+            quantityView.setText(values.get(position).getQuantity());
+            priceView.setText(values.get(position).getPrice());
+            unitsView.setAdapter(unitsAdapter);
+        }
         Button delete = convertView.findViewById(R.id.list_Item_Delete);
         final SwipableListAdapter adapter = this;
 
@@ -66,6 +70,8 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
 
                 swipeableLayout.changeToNotSwiped();
                 //remove task
+                adapter.values.remove(position);
+
                 if(deleteListener != null)
                     deleteListener.onDelete(position);
                 adapter.notifyDataSetChanged();
@@ -75,4 +81,5 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         swipeableLayout.setOnClickListener(onClickListener);
         return convertView;
     }
+
 }
