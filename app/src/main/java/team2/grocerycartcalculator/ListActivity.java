@@ -93,7 +93,7 @@ public class ListActivity extends AppCompatActivity {
             {
                 Food food = database.getFoodByID(id);
                 groceryList.addFood(food, 1);
-                foodList.add(new List_Item(food, 1));
+                foodList.add(new List_Item(food, 1, groceryListID));
                 adapter.notifyDataSetChanged();
             }
         }
@@ -102,7 +102,7 @@ public class ListActivity extends AppCompatActivity {
         Map<Food, Integer> listmap =  groceryList.getFoodQuantities();
         ArrayList<Food> foods = new ArrayList<>(listmap.keySet());
         for(int i=0; i<foods.size(); i++){
-            foodList.add(new List_Item(foods.get(i), listmap.get(foods.get(i))));
+            foodList.add(new List_Item(foods.get(i), listmap.get(foods.get(i)), groceryListID));
         }
 
     }

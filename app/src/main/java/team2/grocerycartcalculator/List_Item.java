@@ -12,12 +12,14 @@ public class List_Item {
     int quantity;
     String units;
     float price;
+    int listID;
 
-    List_Item(Food food, int quantity){
+    List_Item(Food food, int quantity, int groceryListID){
         name = food.getName();
         this.quantity = quantity;
         price = food.getPrice();
         units = "";
+        listID = groceryListID;
     }
 
     String getName(){
