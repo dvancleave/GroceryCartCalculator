@@ -23,7 +23,7 @@ public class Database extends SQLiteOpenHelper {
 
     // Name & version of SQLite database
     private static final String NAME = "groceries";
-    private static final int VERSION = 3;
+    private static final int VERSION = 4;
 
     // Table names (indicated by '_' suffix)
     private static String _FOODS = "foods";
@@ -56,7 +56,8 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS " + _FOODS + "(" +
                 Food._ID + " INTEGER PRIMARY KEY," +
                 Food._NAME + " TEXT," +
-                Food._PRICE + " INTEGER)");
+                Food._PRICE + " INTEGER," +
+                Food._UNITS + " TEXT)");
 
         // Create table for grocery lists
         db.execSQL("CREATE TABLE IF NOT EXISTS " + _LISTS + "(" +
@@ -247,7 +248,7 @@ public class Database extends SQLiteOpenHelper {
      */
 
     // Add row to foods table, enforcing lowercase names; returns Food instance
-    public Food addFood(String name, int price) {
+    public Food addFood(String name, int price, String units) {
         Food food;
 
         // Only add food if no food exists w/ that name
@@ -257,9 +258,10 @@ public class Database extends SQLiteOpenHelper {
 
             vals.put(Food._NAME, name);
             vals.put(Food._PRICE, price);
+            vals.put(Food._UNITS, units);
 
             int id = (int) db.insert(_FOODS, null, vals);
-            food = new Food(id, name, price);
+            food = new Food(id, name, price, units);
             foods.put(id, food);
         } else {
             food.setPrice(price);
@@ -322,7 +324,8 @@ public class Database extends SQLiteOpenHelper {
             Food food = new Food(
                     cursor.getInt(0),       // ID
                     cursor.getString(1),    // Name
-                    cursor.getInt(2)        // Price
+                    cursor.getInt(2),       // Price
+                    cursor.getString(3)     // Units
             );
             foods.put(food.getID(), food);
 
@@ -361,7 +364,7 @@ public class Database extends SQLiteOpenHelper {
 
             if (c2.moveToFirst()) do {
                 Food food = foods.get(c2.getInt(1));
-                if (food != null) list.addFood(food, c2.getInt(2));
+                if (food != null) list.addFood(food, c2.getDouble(2));
             } while (c2.moveToNext());
 
             c2.close();
@@ -402,6 +405,7 @@ public class Database extends SQLiteOpenHelper {
 
         vals.put(Food._NAME, food.getName());
         vals.put(Food._PRICE, food.getPrice());
+        vals.put(Food._UNITS, food.getUnits());
 
         db.update(_FOODS, vals, Food._ID + "=" + food.getID(), null);
 
@@ -443,7 +447,7 @@ public class Database extends SQLiteOpenHelper {
         db.beginTransaction();
         try {
             vals = new ContentValues();
-            for (Map.Entry<Food, Integer> e : list.getFoodQuantities().entrySet()) {
+            for (Map.Entry<Food, Double> e : list.getFoodQuantities().entrySet()) {
                 vals.put(GroceryList._ID, list.getID());
                 vals.put(Food._ID, e.getKey().getID());
                 vals.put(Food._QUANTITY, e.getValue());

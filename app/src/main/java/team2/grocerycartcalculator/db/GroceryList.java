@@ -24,7 +24,7 @@ public class GroceryList {
     private int id; // DB table id
     private String name; // name of grocery list
     private Calendar date; // date the list was created for
-    private Map<Food, Integer> foods; // list of foods w/ their respective quantities
+    private Map<Food, Double> foods; // list of foods w/ their respective quantities
     private int totalPrice; // total price of food items on list
     private HashSet<String> tags; // list of descriptive tags for this recipe (assuming it's a recipe)
 
@@ -48,7 +48,7 @@ public class GroceryList {
     public Calendar getDate() {
         return date;
     }
-    public Map<Food, Integer> getFoodQuantities() {
+    public Map<Food, Double> getFoodQuantities() {
         return foods;
     }
     public int getTotalPrice() {
@@ -57,7 +57,7 @@ public class GroceryList {
     public HashSet<String> getTags() {
         return tags;
     }
-    public int getQuantity(Food food) {
+    public double getQuantity(Food food) {
         return foods.containsKey(food) ? foods.get(food) : 0;
     }
 
@@ -68,17 +68,20 @@ public class GroceryList {
     public void setDate(Calendar date) {
         this.date = date;
     }
+    public void setQuantity(Food food, double quantity) {
+        addFood(food, quantity);
+    }
 
     // Add/remove food items (returns the old quantity)
-    public int addFood(Food food, int quantity) {
-        int old = foods.containsKey(food) ? foods.get(food) : 0;
+    public double addFood(Food food, double quantity) {
+        double old = foods.containsKey(food) ? foods.get(food) : 0;
         if (quantity == 0) removeFood(food);
         else foods.put(food, quantity);
 
         return old; // Return old quantity (0 if not in list)
     }
-    public int removeFood(Food food) {
-        Integer old = foods.remove(food);
+    public double removeFood(Food food) {
+        Double old = foods.remove(food);
 
         return old != null ? old : 0; // Return old quantity (0 if not in list)
     }
@@ -110,7 +113,7 @@ public class GroceryList {
     public void recalculateTotalPrice() {
         totalPrice = 0;
 
-        for (Map.Entry<Food, Integer> e : foods.entrySet()) {
+        for (Map.Entry<Food, Double> e : foods.entrySet()) {
             totalPrice += e.getKey().getPrice() * e.getValue(); // add price * quantity to total
         }
     }

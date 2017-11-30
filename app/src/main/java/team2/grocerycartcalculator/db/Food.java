@@ -13,6 +13,7 @@ public class Food {
     protected static String _ID = "food_id";
     protected static String _NAME = "name";
     protected static String _PRICE = "price";
+    protected static String _UNITS = "units";
     // Used in other tables
     protected static String _QUANTITY = "quantity";
     protected static String _TAG = "food_tag";
@@ -21,13 +22,15 @@ public class Food {
     private int id; // DB table id
     private String name; // name of food item
     private int price; // price in pennies
+    private String units; // unit measurement of food item (i.e. "lbs")
     private HashSet<String> tags; // List of descriptive tags for this food item
 
     // Constructors
-    protected Food(int id, String name, int price) {
+    protected Food(int id, String name, int price, String units) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.units = units;
         tags = new HashSet<>();
     }
 
@@ -42,6 +45,10 @@ public class Food {
     public int getPrice() {
         return price;
     }
+    public String getUnits() {
+        return units;
+    }
+
     public HashSet<String> getTags() {
         return tags;
     }
@@ -52,6 +59,9 @@ public class Food {
     }
     public void setPrice(int price) {
         this.price = price;
+    }
+    public void setUnits(String units) {
+        this.units = units;
     }
 
     // Adders & Removers (return value: true = something was changed, false = nothing changed)
