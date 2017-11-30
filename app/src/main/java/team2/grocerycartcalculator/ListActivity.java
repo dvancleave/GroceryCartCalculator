@@ -67,6 +67,13 @@ public class ListActivity extends AppCompatActivity {
             adapter = new SwipableListAdapter(this, foodList);
             listview.setAdapter(adapter);
         }
+
+        checkoutButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startCheckoutActivity();
+            }
+        });
     }
 
     public void addItem(View view)
@@ -91,12 +98,17 @@ public class ListActivity extends AppCompatActivity {
             }
         }
     }
-    public void populateFoodList(){
+    private void populateFoodList(){
         Map<Food, Integer> listmap =  groceryList.getFoodQuantities();
         ArrayList<Food> foods = new ArrayList<>(listmap.keySet());
         for(int i=0; i<foods.size(); i++){
             foodList.add(new List_Item(foods.get(i), listmap.get(foods.get(i))));
         }
 
+    }
+    private void startCheckoutActivity(){
+        Intent intent = new Intent(this, CheckoutActivity.class);
+        intent.putExtra(MainActivity.LA_INTENT_EXTRA, groceryListID);
+        startActivity(intent);
     }
 }

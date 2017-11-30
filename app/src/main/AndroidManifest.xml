@@ -36,7 +36,7 @@
         <activity
             android:name=".ItemDatabaseViewActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Checkout"></activity>
+        <activity android:name=".CheckoutActivity"></activity>
     </application>
 
 </manifest>
