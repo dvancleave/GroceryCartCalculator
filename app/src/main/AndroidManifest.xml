@@ -33,8 +33,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".TestActivity" />
-        <activity android:name=".ItemDatabaseViewActivity"
+        <activity
+            android:name=".ItemDatabaseViewActivity"
             android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".Checkout"></activity>
     </application>
 
 </manifest>

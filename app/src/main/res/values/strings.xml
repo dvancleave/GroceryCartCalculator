@@ -16,4 +16,5 @@
     <string name="idSearchHint">Search food</string>
     <string name="idEditTextEmptyError">Food name cannot be blank</string>
     <string name="idEditTextLengthError">Name is longer than 64 characters</string>
+    <string name="title_activity_checkout">Checkout</string>
 </resources>

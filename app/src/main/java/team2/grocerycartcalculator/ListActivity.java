@@ -60,6 +60,8 @@ public class ListActivity extends AppCompatActivity {
             if(!isRecipe){
                 checkoutButton.setVisibility(View.VISIBLE);
             }
+            //make sure food list is empty
+            foodList = new ArrayList<List_Item>();
             populateFoodList();
             //creating and setting adapter
             adapter = new SwipableListAdapter(this, foodList);
