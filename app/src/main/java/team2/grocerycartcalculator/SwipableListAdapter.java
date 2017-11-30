@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -49,7 +50,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         }
         final SwipeableLayout swipeableLayout = convertView.findViewById(R.id.swipeableListLayout);
         TextView nameView = convertView.findViewById(R.id.item_name_text);
-        TextView quantityView = convertView.findViewById(R.id.quantity_text);
+        EditText quantityView = convertView.findViewById(R.id.quantity_text);
         Spinner unitsView = convertView.findViewById(R.id.units_spinner);
         TextView priceView = convertView.findViewById(R.id.price_text);
         ArrayAdapter<String> unitsAdapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, unitslist);
