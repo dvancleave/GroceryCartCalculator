@@ -20,7 +20,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
     private Context context;
     private ArrayList<List_Item> values;
     private ArrayList<String> unitslist;
-    private onDeleteListener deleteListener;
+
     private View.OnClickListener onClickListener;
     private Database database;
 
@@ -34,10 +34,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         database = StartLoadActivity.database;
     }
 
-    public void setOnDeleteListener(onDeleteListener listener)
-    {
-        deleteListener = listener;
-    }
+
 
     public void setOnClickListener(View.OnClickListener listener)
     {
@@ -77,8 +74,6 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
                 containingList.removeFood(values.get(position).getFood());
                 database.saveGroceryList(containingList);
                 adapter.values.remove(position);
-                if(deleteListener != null)
-                    deleteListener.onDelete(position);
                 adapter.notifyDataSetChanged();
             }
         });
