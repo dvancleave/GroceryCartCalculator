@@ -13,8 +13,10 @@ public class List_Item {
     String units;
     float price;
     int listID;
+    Food food;
 
     List_Item(Food food, int quantity, int groceryListID){
+        this.food = food;
         name = food.getName();
         this.quantity = quantity;
         price = food.getPrice();
@@ -34,6 +36,14 @@ public class List_Item {
         float priceFloat = price/100;
         String priceString = Float.toString(priceFloat);
         return priceString;
+    }
+
+    public int getListID() {
+        return listID;
+    }
+
+    public Food getFood() {
+        return food;
     }
 
     public void setQuantity(int quantity) {

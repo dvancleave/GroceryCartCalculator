@@ -3,10 +3,15 @@ package team2.grocerycartcalculator;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -21,6 +26,7 @@ public class ListActivity extends AppCompatActivity {
     ListView listview;
     Button checkoutButton;
     Database database;
+    EditText nameEdit;
     int groceryListID;
     GroceryList groceryList;
     boolean isRecipe;
@@ -49,11 +55,12 @@ public class ListActivity extends AppCompatActivity {
         database = StartLoadActivity.database;
         listview = findViewById(R.id.item_list);
         checkoutButton =  findViewById(R.id.checkout_button);
+        nameEdit = findViewById(R.id.list_name_edit);
         groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
         groceryList = database.getGroceryListByID(groceryListID);
         //make sure grocerylist exists
         checkoutButton.setVisibility(View.GONE);
-
+        nameEdit.setText(groceryList.getName());
         if(groceryList != null){
             isRecipe = groceryList.isRecipe();
             //show checkout button if viewing grocerylist
@@ -74,6 +81,28 @@ public class ListActivity extends AppCompatActivity {
                 startCheckoutActivity();
             }
         });
+
+       nameEdit.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void afterTextChanged(Editable editable) {
+                String newName = editable.toString();
+                //change name in list and save list to database
+               groceryList.setName(newName);
+               database.saveGroceryList(groceryList);
+           }
+       });
+
+
     }
 
     public void addItem(View view)
