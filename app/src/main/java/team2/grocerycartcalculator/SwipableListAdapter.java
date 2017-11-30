@@ -7,13 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import team2.grocerycartcalculator.db.Database;
 import team2.grocerycartcalculator.db.Food;
+import team2.grocerycartcalculator.db.GroceryList;
 
 public class SwipableListAdapter extends ArrayAdapter<List_Item> {
     private Context context;
@@ -21,6 +22,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
     private ArrayList<String> unitslist;
     private onDeleteListener deleteListener;
     private View.OnClickListener onClickListener;
+    private Database database;
 
     public SwipableListAdapter(Context context, ArrayList<List_Item> values){
         super(context, -1, values);
@@ -29,6 +31,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         unitslist = new ArrayList<String>();
         unitslist.add("lbs");
         unitslist.add("grams");
+        database = StartLoadActivity.database;
     }
 
     public void setOnDeleteListener(onDeleteListener listener)
@@ -52,7 +55,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         TextView quantityView = convertView.findViewById(R.id.quantity_text);
         Spinner unitsView = convertView.findViewById(R.id.units_spinner);
         TextView priceView = convertView.findViewById(R.id.price_text);
-        ArrayAdapter<String> unitsAdapter = new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, unitslist);
+        ArrayAdapter<String> unitsAdapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, unitslist);
 
         //set textviews texts
         if(values.get(position)!= null) {
@@ -69,9 +72,11 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
             public void onClick(View v) {
 
                 swipeableLayout.changeToNotSwiped();
-                //remove task
+                //remove food from database
+                GroceryList containingList = database.getGroceryListByID(values.get(position).getListID());
+                containingList.removeFood(values.get(position).getFood());
+                database.saveGroceryList(containingList);
                 adapter.values.remove(position);
-
                 if(deleteListener != null)
                     deleteListener.onDelete(position);
                 adapter.notifyDataSetChanged();

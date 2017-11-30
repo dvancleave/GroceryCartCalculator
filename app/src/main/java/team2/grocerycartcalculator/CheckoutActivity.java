@@ -1,5 +1,6 @@
 package team2.grocerycartcalculator;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -46,5 +47,10 @@ public class CheckoutActivity extends AppCompatActivity {
             foodList.add(new List_Item(foods.get(i), listmap.get(foods.get(i)), groceryListID));
         }
 
+    }
+    private void launchMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
