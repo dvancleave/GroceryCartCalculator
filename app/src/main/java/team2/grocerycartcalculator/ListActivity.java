@@ -101,8 +101,12 @@ public class ListActivity extends AppCompatActivity {
                database.saveGroceryList(groceryList);
            }
        });
+    }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 
     public void addItem(View view)

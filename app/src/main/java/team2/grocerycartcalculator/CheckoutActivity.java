@@ -48,6 +48,9 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
+
+
+
     private void populateFoodList(){
         Map<Food, Integer> listmap =  groceryList.getFoodQuantities();
         ArrayList<Food> foods = new ArrayList<>(listmap.keySet());
