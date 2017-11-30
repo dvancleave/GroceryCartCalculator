@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class SwipableListAdapter extends ArrayAdapter<List_Item> {
     private Context context;
     private ArrayList<List_Item> values;
+    private ArrayList<String> unitslist;
     private onDeleteListener deleteListener;
     private View.OnClickListener onClickListener;
 
@@ -22,6 +24,9 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         super(context, -1, values);
         this.context = context;
         this.values = values;
+        unitslist = new ArrayList<String>();
+        unitslist.add("lbs");
+        unitslist.add("grams");
     }
 
     public void setOnDeleteListener(onDeleteListener listener)
@@ -42,9 +47,10 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         }
         final SwipeableLayout swipeableLayout = convertView.findViewById(R.id.swipeableListLayout);
         TextView nameView = convertView.findViewById(R.id.item_name_text);
-        EditText quantityView = convertView.findViewById(R.id.quantity_text);
-        TextView unitsView = convertView.findViewById(R.id.units_text);
+        TextView quantityView = convertView.findViewById(R.id.quantity_text);
+        Spinner unitsView = convertView.findViewById(R.id.units_spinner);
         TextView priceView = convertView.findViewById(R.id.price_text);
+        ArrayAdapter<String> unitsAdapter = new ArrayAdapter<String>(getContext(), R.layout.support_simple_spinner_dropdown_item, unitslist);
 
         //set textviews texts
         nameView.setText(values.get(position).getName());
