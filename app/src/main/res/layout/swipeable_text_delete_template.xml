@@ -8,8 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/swipeableLayout"
-        android:layout_alignBottom="@id/swipeableLayout">
+        android:layout_alignTop="@id/stSwipeableLayout"
+        android:layout_alignBottom="@id/stSwipeableLayout">
 
         <Button
             android:id="@+id/stDelete"
@@ -24,7 +24,7 @@
     </RelativeLayout>
 
     <team2.grocerycartcalculator.SwipeableLayout
-        android:id="@+id/swipeableLayout"
+        android:id="@+id/stSwipeableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/activityBackground">

@@ -12,11 +12,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+//When editing and using a different class, be sure to change <String> to your object!
 public class SwipeableTextAdapter extends ArrayAdapter<String>{
 
     private Context context;
     private ArrayList<String> values;
-    private onDeleteListener deleteListener;
+    private OnDeleteListener deleteListener;
     private View.OnClickListener onClickListener;
 
     public SwipeableTextAdapter(Context context, ArrayList<String> values) {
@@ -35,7 +36,7 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
         return values.get(pos);
     }
 
-    public void setOnDeleteListener(onDeleteListener listener)
+    public void setOnDeleteListener(OnDeleteListener listener)
     {
         deleteListener = listener;
     }
@@ -53,10 +54,13 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.swipeable_text_delete_template, parent, false);
         }
-        final SwipeableLayout swipeableLayout = convertView.findViewById(R.id.swipeableLayout);
+        final SwipeableLayout swipeableLayout = convertView.findViewById(R.id.stSwipeableLayout);
+
+        //When editing, change this part!
         TextView textView = convertView.findViewById(R.id.stText);
         textView.setText(values.get(position));
 
+        // Leave this stuff alone unless you know what you're doing
         Button delete = convertView.findViewById(R.id.stDelete);
         final SwipeableTextAdapter adapter = this;
         delete.setOnClickListener(new View.OnClickListener(){
@@ -70,6 +74,7 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
                 adapter.notifyDataSetChanged();
             }
         });
+        // Passing the button so that the layout knows where to snap
         swipeableLayout.setDeleteButton(delete);
         swipeableLayout.setOnClickListener(onClickListener);
         return convertView;

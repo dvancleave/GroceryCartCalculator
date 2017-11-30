@@ -1,17 +1,13 @@
 package team2.grocerycartcalculator;
 
-import android.app.SearchManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import team2.grocerycartcalculator.db.GroceryList;
 
@@ -56,7 +52,7 @@ public class RecipeViewActivity extends AppCompatActivity {
         for(GroceryList g : gl)
             recipeList.add(g.getName());
         adapter = new SwipeableTextAdapter(this, recipeList);
-        adapter.setOnDeleteListener(new onDeleteListener()
+        adapter.setOnDeleteListener(new OnDeleteListener()
                     {
                         @Override
                         public void onDelete(int position) {
