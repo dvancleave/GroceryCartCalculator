@@ -17,7 +17,6 @@
     <string name="idEditTextEmptyError">Food name cannot be blank</string>
     <string name="idEditTextLengthError">Name is longer than 64 characters</string>
     <string name="deleteText">DELETE</string>
-    <string name="smcPriceHint">Price</string>
-    <string name="smcFoodHint">Name</string>
     <string name="title_activity_checkout">Checkout</string>
+    <string name="stTextHint">Item</string>
 </resources>

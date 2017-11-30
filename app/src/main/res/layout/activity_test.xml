@@ -6,13 +6,4 @@
     android:layout_height="match_parent"
     tools:context="team2.grocerycartcalculator.TestActivity">
 
-    <ListView
-        android:id="@+id/testListView"
-        android:layout_width="368dp"
-        android:layout_height="491dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/swipeable_manual_checkout_template" />
 </android.support.constraint.ConstraintLayout>
