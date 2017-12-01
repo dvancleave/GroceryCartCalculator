@@ -54,6 +54,10 @@ public class GroceryList {
     public int getTotalPrice() {
         return totalPrice;
     }
+    public void setTotalPrice(double price)
+    {
+        totalPrice = (int) Math.ceil(price);
+    }
     public HashSet<String> getTags() {
         return tags;
     }

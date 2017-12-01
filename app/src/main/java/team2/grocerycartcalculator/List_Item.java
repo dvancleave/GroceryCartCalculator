@@ -11,7 +11,8 @@ public class List_Item {
     String name;
     double quantity;
     String units;
-    float price;
+    double price;
+    double totalPrice;
     int listID;
     Food food;
 
@@ -20,6 +21,7 @@ public class List_Item {
         name = food.getName();
         this.quantity = quantity;
         price = food.getPrice();
+        totalPrice = quantity * price;
         units = "";
         listID = groceryListID;
     }
@@ -33,8 +35,8 @@ public class List_Item {
     }
 
     String getPrice() {
-        float priceFloat = price/100;
-        String priceString = Float.toString(priceFloat);
+        double priceFloat = price/100;
+        String priceString = Double.toString(priceFloat);
         return priceString;
     }
 

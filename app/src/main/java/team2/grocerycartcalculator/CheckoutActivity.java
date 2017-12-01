@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import team2.grocerycartcalculator.db.Database;
@@ -24,6 +25,9 @@ public class CheckoutActivity extends AppCompatActivity {
     ArrayList<List_Item> foodList;
     SwipableListAdapter adapter;
 
+    // Exponential averaging alpha value
+    private static final double ALPHA = 0.8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +42,30 @@ public class CheckoutActivity extends AppCompatActivity {
         populateFoodList();
         //creating and setting adapter
         adapter = new SwipableListAdapter(this, foodList);
+        // We are supposed to edit the price in the Checkout View
+        adapter.setCanEditPrice(true);
         listView.setAdapter(adapter);
 
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Map<Food, Double> listmap =  groceryList.getFoodQuantities();
+                ArrayList<Food> foods = new ArrayList<>(listmap.keySet());
+                double totalPrice = 0;
+                for(int i = 0; i < foodList.size(); ++i)
+                {
+                    List_Item item = foodList.get(i);
+                    Food f = foods.get(i);
+                    listmap.put(f, item.quantity);
+                    totalPrice += item.totalPrice; // Update our total price
+                    double currPrice = (double) (f.getPrice());
+                    double unitPrice = item.totalPrice/item.quantity/Units.getUnitConv(item.units);
+                    // Update our food's per unit price
+                    currPrice = (currPrice == 0.0 ? unitPrice : currPrice * ALPHA +  (1 - ALPHA) * unitPrice);
+                    f.setPrice((int)(currPrice));
+                }
+                // Update budget now
+                groceryList.setTotalPrice(totalPrice);
                 launchMainActivity();
             }
         });

@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import team2.grocerycartcalculator.db.Database;
-import team2.grocerycartcalculator.db.Food;
 import team2.grocerycartcalculator.db.GroceryList;
 
 public class SwipableListAdapter extends ArrayAdapter<List_Item> {
@@ -28,6 +27,27 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
 
     private View.OnClickListener onClickListener;
     private Database database;
+
+    private boolean canEditPrice = false;
+    private boolean enabled = true;
+
+    public void setIsEnabled(boolean val)
+    {
+        enabled = val;
+    }
+
+    public void setCanEditPrice(boolean val)
+    {
+        canEditPrice = val;
+    }
+
+    /*
+    @Override
+    public boolean isEnabled(int position)
+    {
+        return enabled;
+    }
+    //*/
 
     public SwipableListAdapter(Context context, ArrayList<List_Item> values){
         super(context, -1, values);
@@ -54,7 +74,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         TextView nameView = convertView.findViewById(R.id.item_name_text);
         final EditText quantityView = convertView.findViewById(R.id.quantity_text);
         final Spinner unitsView = convertView.findViewById(R.id.units_spinner);
-        final TextView priceView = convertView.findViewById(R.id.price_text);
+        final EditText priceView = convertView.findViewById(R.id.price_text);
         String unit = values.get(position).getFood().getUnits();
         unitslist = new ArrayList<String>();
         // If you don't clone, it messes with every other view's because you are setting it to the static list, not a copy of it
@@ -68,7 +88,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         ArrayAdapter<String> unitsAdapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, unitslist);
 
         //set textviews texts
-        List_Item currItem = values.get(position);
+        final List_Item currItem = values.get(position);
         if(currItem!= null) {
             nameView.setText(currItem.getName());
             quantityView.setText(currItem.getQuantity());
@@ -79,6 +99,15 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
             priceView.setText(String.format(Locale.US, "%.2f", value));
         }
         Button delete = convertView.findViewById(R.id.list_Item_Delete);
+
+        // If we have disabled editing because we checked out, make sure we set that value!
+        swipeableLayout.setEnabled(enabled);
+        quantityView.setEnabled(enabled);
+        unitsView.setEnabled(enabled);
+        delete.setEnabled(enabled);
+
+        // Used only in checkout. Set our price view to be enabled for editing
+        priceView.setEnabled(canEditPrice);
         final SwipableListAdapter adapter = this;
 
         delete.setOnClickListener(new View.OnClickListener(){
@@ -148,7 +177,34 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
                 GroceryList containingList = database.getGroceryListByID(values.get(position).getListID());
                 containingList.setQuantity(values.get(position).getFood(), newquantitydouble);
                 Double value = Double.valueOf(values.get(position).getPrice()) * newquantitydouble * getUnitConv(unitsView);
-                priceView.setText(String.format(Locale.US, "%.2f", value));
+                if(!canEditPrice)
+                    priceView.setText(String.format(Locale.US, "%.2f", value));
+            }
+        });
+
+        priceView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                double value;
+                if(string.equals("."))
+                {
+                    priceView.setError("Value is not a number");
+                    value = 0;
+                }
+                else
+                    value = string.isEmpty() ? 1.0 : Double.parseDouble(string);
+                values.get(position).totalPrice = value * 100;
             }
         });
         //*/
@@ -172,7 +228,9 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
                 Double value = Double.valueOf(values.get(position).getPrice());
                 value *= newquantitydouble;
                 value *= getUnitConv(unitsView);
-                priceView.setText(String.format(Locale.US, "%.2f", value));
+                values.get(position).units = (String) unitsView.getSelectedItem();
+                if(!canEditPrice)
+                    priceView.setText(String.format(Locale.US, "%.2f", value));
             }
 
             @Override

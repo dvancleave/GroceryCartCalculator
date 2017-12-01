@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class ListActivity extends AppCompatActivity {
     ArrayList<List_Item> foodList;
     SwipableListAdapter adapter;
     EditText quantityField;
+    private boolean doOnce = true;
 
     protected static String itemIDKey = "BM_ITEMID";
     protected static int itemIDResultKey = 1;
@@ -63,9 +65,9 @@ public class ListActivity extends AppCompatActivity {
 
         groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
         groceryList = database.getGroceryListByID(groceryListID);
+        checkoutButton.setVisibility(View.GONE);
         //make sure grocerylist exists
 
-        checkoutButton.setVisibility(View.GONE);
         nameEdit.setText(groceryList.getName());
         if(groceryList != null){
             isRecipe = groceryList.isRecipe();
@@ -87,35 +89,14 @@ public class ListActivity extends AppCompatActivity {
                 startCheckoutActivity();
             }
         });
-
-        /*
-        quantityField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                 String newQuantity = editable.toString();
-                 try {
-                     double quantity = Double.valueOf(newQuantity);
-                 }catch(NumberFormatException e)
-                 {
-                     quantityField.setError("Value isn't a number");
-                     quantityField.requestFocus();
-                     return;
-                 }
-
-                 database.saveGroceryList(groceryList);
-            }
-        });
-        //*/
+        // We already checked out this, so we shouldn't be able to edit its foods
+        if(groceryList.getTotalPrice() > 0)
+        {
+            adapter.setIsEnabled(false);
+            listview.invalidate();
+            adapter.notifyDataSetChanged();
+            checkoutButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
