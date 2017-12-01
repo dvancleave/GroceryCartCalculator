@@ -26,6 +26,7 @@ public class ListActivity extends AppCompatActivity {
 
     ListView listview;
     Button checkoutButton;
+    Button add;
     Database database;
     EditText nameEdit;
     int groceryListID;
@@ -63,14 +64,14 @@ public class ListActivity extends AppCompatActivity {
         checkoutButton =  findViewById(R.id.checkout_button);
         nameEdit = findViewById(R.id.list_name_edit);
         quantityField = findViewById(R.id.quantity_text);
-
+        add = findViewById(R.id.add_button);
         Intent intent = getIntent();
         groceryListID = intent.getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
         date = intent.getLongExtra(MainActivity.GLSA_INTENT_EXTRA, -1);
         groceryList = database.getGroceryListByID(groceryListID);
         checkoutButton.setVisibility(View.GONE);
         //make sure grocerylist exists
-
+        add.setVisibility(View.VISIBLE);
         nameEdit.setText(groceryList.getName());
         if(groceryList != null){
             isRecipe = groceryList.isRecipe();
@@ -97,6 +98,7 @@ public class ListActivity extends AppCompatActivity {
         {
             adapter.setIsEnabled(false);
             listview.invalidate();
+            add.setVisibility(View.GONE);
             adapter.notifyDataSetChanged();
             checkoutButton.setVisibility(View.GONE);
         }
