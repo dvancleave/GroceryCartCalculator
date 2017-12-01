@@ -132,7 +132,7 @@ public class ListActivity extends AppCompatActivity {
         }
     }
     private void populateFoodList(){
-        Map<Food, Integer> listmap =  groceryList.getFoodQuantities();
+        Map<Food, Double> listmap =  groceryList.getFoodQuantities();
         ArrayList<Food> foods = new ArrayList<>(listmap.keySet());
         for(int i=0; i<foods.size(); i++){
             foodList.add(new List_Item(foods.get(i), listmap.get(foods.get(i)), groceryListID));

@@ -116,7 +116,7 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
             // Exit
             return;
         }
-        Food newFood = StartLoadActivity.database.addFood(foodName, 0);
+        Food newFood = StartLoadActivity.database.addFood(foodName, 0, "lbs");
         itemList.add(newFood);
         itemNameList.add(newFood.getName());
 

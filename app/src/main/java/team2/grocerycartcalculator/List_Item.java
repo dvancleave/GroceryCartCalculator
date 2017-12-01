@@ -9,13 +9,13 @@ import team2.grocerycartcalculator.db.Food;
 public class List_Item {
     // [Food name][Quantity of Item][Dropdown list of units][Price]
     String name;
-    int quantity;
+    double quantity;
     String units;
     float price;
     int listID;
     Food food;
 
-    List_Item(Food food, int quantity, int groceryListID){
+    List_Item(Food food, double quantity, int groceryListID){
         this.food = food;
         name = food.getName();
         this.quantity = quantity;
@@ -29,7 +29,7 @@ public class List_Item {
     }
 
     String getQuantity() {
-        return Integer.toString(quantity);
+        return Double.toString(quantity);
     }
 
     String getPrice() {
@@ -46,7 +46,7 @@ public class List_Item {
         return food;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 }

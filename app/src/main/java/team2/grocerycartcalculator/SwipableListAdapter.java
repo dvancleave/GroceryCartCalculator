@@ -2,6 +2,8 @@ package team2.grocerycartcalculator;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +78,26 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
                 database.saveGroceryList(containingList);
                 adapter.values.remove(position);
                 adapter.notifyDataSetChanged();
+            }
+        });
+        quantityView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //save to database
+                String newquantity = editable.toString();
+                Double newquantitydouble = Double.parseDouble(newquantity);
+                GroceryList containingList = database.getGroceryListByID(values.get(position).getListID());
+                containingList.setQuantity(values.get(position).getFood(),newquantitydouble );
             }
         });
         swipeableLayout.setDeleteButton(delete);
