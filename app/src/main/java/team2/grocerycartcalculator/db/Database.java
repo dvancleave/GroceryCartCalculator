@@ -342,6 +342,21 @@ public class Database extends SQLiteOpenHelper {
 
         cursor.close();
 
+        // Iterate through budgets & add to list
+        cursor = db.rawQuery("SELECT * FROM " + _BUDGETS, null);
+
+        if (cursor.moveToFirst()) do {
+            Budget budget = new Budget(
+                    cursor.getInt(0),   // Year
+                    cursor.getInt(1),   // Month
+                    cursor.getInt(2),   // Total
+                    cursor.getInt(3)    // Spent
+            );
+            budgets.add(budget);
+        } while(cursor.moveToNext());
+
+        cursor.close();
+
 
         // Iterate through grocery lists & add to list of lists
         cursor = db.rawQuery("SELECT * FROM " + _LISTS, null);
