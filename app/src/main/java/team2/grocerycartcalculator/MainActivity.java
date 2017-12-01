@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Locale;
 
+import team2.grocerycartcalculator.db.Budget;
 import team2.grocerycartcalculator.db.Database;
 import team2.grocerycartcalculator.db.Food;
 import team2.grocerycartcalculator.db.GroceryList;
@@ -35,6 +38,20 @@ public class MainActivity extends AppCompatActivity {
                 startGroceryListActivity(selectedDateCal.getTimeInMillis());
             }
         });
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        // Update the budget because that might have changed
+        Calendar firstOfMonthCal = Calendar.getInstance();
+        // Set the date to the first of the month
+        firstOfMonthCal.set(Calendar.DAY_OF_MONTH, 1);
+        long date = firstOfMonthCal.getTimeInMillis();
+        Budget budget = StartLoadActivity.database.getBudget(date);
+        TextView budgetText = findViewById(R.id.budgetText);
+        budgetText.setText(String.format(Locale.US, "$%.2f/$%.2f", ((double) budget.getSpent())/100, ((double) budget.getTotal())/100));
     }
     //1/12/17:1512122369554
     // Start GLSA

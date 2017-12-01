@@ -20,7 +20,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Intent intent = getIntent();
-        date = intent.getLongExtra(MainActivity.GLSA_INTENT_EXTRA, -1);
+        date = intent.getLongExtra(MainActivity.BUDGET_EXTRA, -1);
         currBudget = StartLoadActivity.database.getBudget(date);
         if(currBudget == null)
             System.out.println("Budget hasn't been set. What do??");
@@ -35,7 +35,10 @@ public class SettingsActivity extends AppCompatActivity {
         String budgetString = budgetField.getText().toString();
         double budget = currBudget.getTotal();
         if(!budgetString.isEmpty() && !budgetString.equals("."))
-            budget = Double.valueOf(budgetString);
-        currBudget.setTotal((int)(budget * 100));
+            budget = Double.valueOf(budgetString) * 100;
+        currBudget.setTotal((int)(budget));
+        budgetField.setText("");
+        StartLoadActivity.database.saveBudget(currBudget);
+        StartLoadActivity.database.saveAll();
     }
 }
