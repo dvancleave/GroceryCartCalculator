@@ -73,6 +73,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 database.saveGroceryList(groceryList);
                 Budget budget = database.getBudget(date);
                 budget.setSpent(budget.getSpent() + (int) totalPrice);
+                database.saveBudget(budget);
                 launchMainActivity();
             }
         });
