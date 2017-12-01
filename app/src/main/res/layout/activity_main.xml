@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/budgetText"
-        android:layout_width="187dp"
+        android:layout_width="wrap_content"
         android:layout_height="34dp"
         android:layout_marginTop="80dp"
         android:text="$0/$0"
