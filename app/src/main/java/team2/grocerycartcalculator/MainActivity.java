@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         long date = firstOfMonthCal.getTimeInMillis();
         Budget budget = StartLoadActivity.database.getBudget(date);
         TextView budgetText = findViewById(R.id.budgetText);
-        budgetText.setText(String.format(Locale.US, "$%.2f/$%.2f", ((double) budget.getSpent())/100, ((double) budget.getTotal())/100));
+        budgetText.setText(String.format(Locale.US, "$%.2f/$%.2f", ((double) budget.getTotal())/100 - ((double) budget.getSpent())/100, ((double) budget.getTotal())/100));
     }
     //1/12/17:1512122369554
     // Start GLSA
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, GroceryListSelectActivity.class);
         intent.putExtra(GLSA_INTENT_EXTRA, date);
+        Budget selectedMonthBudget = StartLoadActivity.database.getBudget(date);
         startActivity(intent);
         System.out.println("This line was executed");
     }
