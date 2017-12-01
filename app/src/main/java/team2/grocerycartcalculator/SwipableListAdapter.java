@@ -53,7 +53,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         super(context, -1, values);
         this.context = context;
         this.values = values;
-        //unitslist = new ArrayList<String>();
+
         database = StartLoadActivity.database;
     }
 
@@ -204,7 +204,11 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
                 }
                 else
                     value = string.isEmpty() ? 1.0 : Double.parseDouble(string);
-                values.get(position).totalPrice = value * 100;
+                value = value*100;
+                GroceryList containingList = database.getGroceryListByID(values.get(position).getListID());
+                values.get(position).totalPrice = value;
+                values.get(position).getFood().setPrice((int)value);
+                database.saveGroceryList(containingList);
             }
         });
         //*/
