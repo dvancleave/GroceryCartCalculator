@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 
+import java.util.Calendar;
+
 import team2.grocerycartcalculator.db.Database;
 import team2.grocerycartcalculator.db.Food;
 import team2.grocerycartcalculator.db.GroceryList;
@@ -14,6 +16,7 @@ import team2.grocerycartcalculator.db.GroceryList;
 public class MainActivity extends AppCompatActivity {
     public static final String GLSA_INTENT_EXTRA = "BM_Date";
     public static final String LA_INTENT_EXTRA = "BM_ID";
+    public static final String BUDGET_EXTRA = "BM_BUDGET";
     CalendarView calendar;
 
     /**
@@ -27,16 +30,17 @@ public class MainActivity extends AppCompatActivity {
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                startGroceryListActivity();
+                Calendar selectedDateCal = Calendar.getInstance();
+                selectedDateCal.set(year, month, dayOfMonth);
+                startGroceryListActivity(selectedDateCal.getTimeInMillis());
             }
         });
     }
-
+    //1/12/17:1512122369554
     // Start GLSA
-    public void startGroceryListActivity()
+    public void startGroceryListActivity(long date)
     {
         Intent intent = new Intent(this, GroceryListSelectActivity.class);
-        long date = calendar.getDate();
         intent.putExtra(GLSA_INTENT_EXTRA, date);
         startActivity(intent);
         System.out.println("This line was executed");
@@ -55,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
     public void startTestActivity(View view)
     {
         Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
+    }
+
+    public void startSettingsActivity(View view)
+    {
+        Calendar firstOfMonthCal = Calendar.getInstance();
+        // Set the date to the first of the month
+        firstOfMonthCal.set(Calendar.DAY_OF_MONTH, 1);
+        long date = firstOfMonthCal.getTimeInMillis();
+        Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra(BUDGET_EXTRA, date);
         startActivity(intent);
     }
 }

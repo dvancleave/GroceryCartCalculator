@@ -35,6 +35,7 @@ public class ListActivity extends AppCompatActivity {
     SwipableListAdapter adapter;
     EditText quantityField;
     private boolean doOnce = true;
+    private long date;
 
     protected static String itemIDKey = "BM_ITEMID";
     protected static int itemIDResultKey = 1;
@@ -63,7 +64,9 @@ public class ListActivity extends AppCompatActivity {
         nameEdit = findViewById(R.id.list_name_edit);
         quantityField = findViewById(R.id.quantity_text);
 
-        groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
+        Intent intent = getIntent();
+        groceryListID = intent.getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
+        date = intent.getLongExtra(MainActivity.GLSA_INTENT_EXTRA, -1);
         groceryList = database.getGroceryListByID(groceryListID);
         checkoutButton.setVisibility(View.GONE);
         //make sure grocerylist exists
@@ -138,6 +141,7 @@ public class ListActivity extends AppCompatActivity {
     private void startCheckoutActivity(){
         Intent intent = new Intent(this, CheckoutActivity.class);
         intent.putExtra(MainActivity.LA_INTENT_EXTRA, groceryListID);
+        intent.putExtra(MainActivity.GLSA_INTENT_EXTRA, date);
         startActivity(intent);
     }
 }

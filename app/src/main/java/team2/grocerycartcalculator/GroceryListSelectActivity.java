@@ -97,6 +97,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(this, ListActivity.class);
         intent.putExtra(MainActivity.LA_INTENT_EXTRA, listID);
+        intent.putExtra(MainActivity.GLSA_INTENT_EXTRA, date);
         startActivity(intent);
     }
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import team2.grocerycartcalculator.db.Budget;
 import team2.grocerycartcalculator.db.Database;
 import team2.grocerycartcalculator.db.Food;
 import team2.grocerycartcalculator.db.GroceryList;
@@ -24,6 +25,7 @@ public class CheckoutActivity extends AppCompatActivity {
     Database database;
     ArrayList<List_Item> foodList;
     SwipableListAdapter adapter;
+    private long date;
 
     // Exponential averaging alpha value
     private static final double ALPHA = 0.8;
@@ -35,7 +37,9 @@ public class CheckoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
         listView = findViewById(R.id.checkout_listview);
         finishButton = findViewById(R.id.checkout_finish_button);
-        groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
+        Intent intent = getIntent();
+        groceryListID = intent.getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
+        date = intent.getLongExtra(MainActivity.GLSA_INTENT_EXTRA, -1);
         groceryList = database.getGroceryListByID(groceryListID);
 
         foodList = new ArrayList<List_Item>();
@@ -66,6 +70,9 @@ public class CheckoutActivity extends AppCompatActivity {
                 }
                 // Update budget now
                 groceryList.setTotalPrice(totalPrice);
+                database.saveGroceryList(groceryList);
+                Budget budget = database.getBudget(date);
+                budget.setSpent(budget.getSpent() + (int) totalPrice);
                 launchMainActivity();
             }
         });

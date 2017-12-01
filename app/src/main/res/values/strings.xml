@@ -19,4 +19,6 @@
     <string name="deleteText">DELETE</string>
     <string name="title_activity_checkout">Checkout</string>
     <string name="stTextHint">Item</string>
+    <string name="settingsBudgetSet">Set Budget</string>
+    <string name="SettingsBudgetHint">Budget</string>
 </resources>
