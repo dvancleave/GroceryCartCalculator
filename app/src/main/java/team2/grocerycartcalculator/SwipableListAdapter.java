@@ -31,9 +31,7 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         super(context, -1, values);
         this.context = context;
         this.values = values;
-        unitslist = new ArrayList<String>();
-        unitslist.add("lbs");
-        unitslist.add("grams");
+        //unitslist = new ArrayList<String>();
         database = StartLoadActivity.database;
     }
 
@@ -55,6 +53,15 @@ public class SwipableListAdapter extends ArrayAdapter<List_Item> {
         EditText quantityView = convertView.findViewById(R.id.quantity_text);
         Spinner unitsView = convertView.findViewById(R.id.units_spinner);
         TextView priceView = convertView.findViewById(R.id.price_text);
+        String unit = values.get(position).getFood().getUnits();
+        if(Units.getSolidList().contains(unit)){
+            unitslist = Units.getSolidList();
+        }else if(Units.getLiquidList().contains(unit)){
+            unitslist = Units.getLiquidList();
+        }else{
+            unitslist = new ArrayList<String>();
+            unitslist.add("count");
+        }
         ArrayAdapter<String> unitsAdapter = new ArrayAdapter<String>(context, R.layout.support_simple_spinner_dropdown_item, unitslist);
 
         //set textviews texts

@@ -24,6 +24,7 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private ConstraintLayout rootView;
     private int unitType;
+    private String unit;
     private static final int UNIT_LIQUID    = 0;
     private static final int UNIT_SOLID     = 1;
     private static final int UNIT_COUNT     = 2;
@@ -83,16 +84,19 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
     public void selectLiquid(View view)
     {
         unitType = UNIT_LIQUID;
+        unit = Units.getDefaultLiquid();
         goToStage2();
     }
     public void selectSolid(View view)
     {
         unitType = UNIT_SOLID;
+        unit = Units.getDefaultSolid();
         goToStage2();
     }
     public void selectCount(View view)
     {
         unitType = UNIT_COUNT;
+        unit = "count";
         goToStage2();
     }
 
@@ -116,7 +120,7 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
             // Exit
             return;
         }
-        Food newFood = StartLoadActivity.database.addFood(foodName, 0, "lbs");
+        Food newFood = StartLoadActivity.database.addFood(foodName, 0, unit);
         itemList.add(newFood);
         itemNameList.add(newFood.getName());
 
