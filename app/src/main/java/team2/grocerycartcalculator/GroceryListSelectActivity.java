@@ -19,6 +19,9 @@ public class GroceryListSelectActivity extends AppCompatActivity {
     SwipeableTextAdapter adapter;
     View rootView;
     long date;
+    // If we select a GL to edit, the name might change so we have to reload it
+    // It is set to -1 after we have already dealt with it and initialliy
+    private int selectedGL = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
         for(GroceryList g : gl)
             nameList.add(g.getName());
         adapter = new SwipeableTextAdapter(this, nameList);
-        adapter.setOnDeleteListener(new OnDeleteListener()
+        adapter.setOnDeleteListener(new onDeleteListener()
         {
             @Override
             public void onDelete(int position) {
@@ -55,6 +58,7 @@ public class GroceryListSelectActivity extends AppCompatActivity {
                 int position = listView.getPositionForView(v);
                 int groceryListID = gl.get(position).getID();
                 //Edit the recipe, which needs to load its own data from the database
+                selectedGL = position;
                 startListActivity(groceryListID);
             }
         });
@@ -65,6 +69,19 @@ public class GroceryListSelectActivity extends AppCompatActivity {
         String dateString = formatter.format(new Date(date));
         TextView dateText = findViewById(R.id.glsaDate);
         dateText.setText(dateString);
+    }
+
+    // Update name because it might have changed
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if(selectedGL != -1)
+        {
+            nameList.set(selectedGL, gl.get(selectedGL).getName());
+            adapter.notifyDataSetChanged();
+            selectedGL = -1;
+        }
     }
 
     public void addGroceryList(View view)

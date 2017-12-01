@@ -17,7 +17,7 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
 
     private Context context;
     private ArrayList<String> values;
-    private OnDeleteListener deleteListener;
+    private onDeleteListener deleteListener;
     private View.OnClickListener onClickListener;
 
     public SwipeableTextAdapter(Context context, ArrayList<String> values) {
@@ -36,7 +36,7 @@ public class SwipeableTextAdapter extends ArrayAdapter<String>{
         return values.get(pos);
     }
 
-    public void setOnDeleteListener(OnDeleteListener listener)
+    public void setOnDeleteListener(onDeleteListener listener)
     {
         deleteListener = listener;
     }

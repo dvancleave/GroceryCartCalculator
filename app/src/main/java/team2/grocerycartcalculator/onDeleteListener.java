@@ -1,9 +1,9 @@
 package team2.grocerycartcalculator;
 
 
-public class OnDeleteListener
+public class onDeleteListener
 {
-    public OnDeleteListener()
+    public onDeleteListener()
     {}
 
     public void onDelete(int position)

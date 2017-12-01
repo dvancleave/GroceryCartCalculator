@@ -18,6 +18,7 @@ public class RecipeViewActivity extends AppCompatActivity {
     SwipeableTextAdapter adapter;
     View rootView;
     SearchView searchBar;
+    private int selectedGL = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class RecipeViewActivity extends AppCompatActivity {
         for(GroceryList g : gl)
             recipeList.add(g.getName());
         adapter = new SwipeableTextAdapter(this, recipeList);
-        adapter.setOnDeleteListener(new OnDeleteListener()
+        adapter.setOnDeleteListener(new onDeleteListener()
                     {
                         @Override
                         public void onDelete(int position) {
@@ -73,11 +74,25 @@ public class RecipeViewActivity extends AppCompatActivity {
                 int position = listView.getPositionForView(v);
                 int groceryListID = gl.get(position).getID();
                 //Edit the recipe, which needs to load its own data from the database
+                selectedGL = position;
                 startListActivity(groceryListID);
             }
         });
         listView.setAdapter(adapter);
 
+    }
+
+    // Update name because it might have changed
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if(selectedGL != -1)
+        {
+            recipeList.set(selectedGL, gl.get(selectedGL).getName());
+            adapter.notifyDataSetChanged();
+            selectedGL = -1;
+        }
     }
 
     public void startCalendarActivity(View view)

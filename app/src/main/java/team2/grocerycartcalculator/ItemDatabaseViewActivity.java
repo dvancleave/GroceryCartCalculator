@@ -105,7 +105,6 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
     {
         EditText editText = findViewById(R.id.idAddName);
         String foodName = editText.getText().toString();
-        //TODO string checking
         if(foodName.isEmpty())
         {
             // Notify that the string has an error
@@ -165,6 +164,8 @@ public class ItemDatabaseViewActivity extends AppCompatActivity {
         View addItem = findViewById(R.id.idAddLayout);
         View stage1 = findViewById(R.id.idStage1);
         View stage2 = findViewById(R.id.idStage2);
+        EditText foodName = findViewById(R.id.idAddName);
+        foodName.setText("");
         filter.setVisibility(View.INVISIBLE);
         addItem.setVisibility(View.INVISIBLE);
         stage1.setVisibility(View.INVISIBLE);

@@ -32,6 +32,7 @@ public class ListActivity extends AppCompatActivity {
     boolean isRecipe;
     ArrayList<List_Item> foodList;
     SwipableListAdapter adapter;
+    EditText quantityField;
 
     protected static String itemIDKey = "BM_ITEMID";
     protected static int itemIDResultKey = 1;
@@ -42,6 +43,8 @@ public class ListActivity extends AppCompatActivity {
     public void onPause()
     {
         super.onPause();
+        //change name in list and save list to database
+        groceryList.setName(nameEdit.getText().toString());
         database.saveGroceryList(groceryList);
     }
 
@@ -56,9 +59,12 @@ public class ListActivity extends AppCompatActivity {
         listview = findViewById(R.id.item_list);
         checkoutButton =  findViewById(R.id.checkout_button);
         nameEdit = findViewById(R.id.list_name_edit);
+        quantityField = findViewById(R.id.quantity_text);
+
         groceryListID = getIntent().getIntExtra(MainActivity.LA_INTENT_EXTRA, -2);
         groceryList = database.getGroceryListByID(groceryListID);
         //make sure grocerylist exists
+
         checkoutButton.setVisibility(View.GONE);
         nameEdit.setText(groceryList.getName());
         if(groceryList != null){
@@ -82,25 +88,34 @@ public class ListActivity extends AppCompatActivity {
             }
         });
 
-       nameEdit.addTextChangedListener(new TextWatcher() {
-           @Override
-           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        /*
+        quantityField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-           }
+            }
 
-           @Override
-           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-           }
+            }
 
-           @Override
-           public void afterTextChanged(Editable editable) {
-                String newName = editable.toString();
-                //change name in list and save list to database
-               groceryList.setName(newName);
-               database.saveGroceryList(groceryList);
-           }
-       });
+            @Override
+            public void afterTextChanged(Editable editable) {
+                 String newQuantity = editable.toString();
+                 try {
+                     double quantity = Double.valueOf(newQuantity);
+                 }catch(NumberFormatException e)
+                 {
+                     quantityField.setError("Value isn't a number");
+                     quantityField.requestFocus();
+                     return;
+                 }
+
+                 database.saveGroceryList(groceryList);
+            }
+        });
+        //*/
     }
 
     @Override

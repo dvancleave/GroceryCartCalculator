@@ -17,6 +17,7 @@ public class StartLoadActivity extends AppCompatActivity {
         Intent startApp = new Intent(this, MainActivity.class);
         startActivity(startApp);
 
-        //TODO: Have a loading circle/message
+        database.addFood("bread", 499, "count");
+        database.addFood("beef", 799, "lbs");
     }
 }
